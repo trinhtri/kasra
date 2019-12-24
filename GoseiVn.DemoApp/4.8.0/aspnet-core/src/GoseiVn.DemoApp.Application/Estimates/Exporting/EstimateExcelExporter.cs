@@ -22,7 +22,7 @@ namespace GoseiVn.DemoApp.Estimates.Exporting
             _abpSession = abpSession;
         }
 
-        public FileDto ExportToFile(List<EstimateListDto> estimates)
+        public FileDto ExportToFile(List<EstimateListForExcelDto> estimates)
         {
             try
             {
@@ -38,7 +38,20 @@ namespace GoseiVn.DemoApp.Estimates.Exporting
                             "Firstname",
                             "LastName",
                             "Mobile",
-                            "Address",
+                            "Email",
+                            "AddressLine1",
+                            "AddressLine2",
+                            "City",
+                            "State",
+                            "ZipCode",
+                            "With",
+                            "Height",
+                            "Length",
+                            "NoOfShingles",
+                            "Color",
+                            "ImportantNote",
+                            "WorkHours",
+                            "Rate",
                             "TotalAmount"
                             );
                         AddObjects(
@@ -46,10 +59,23 @@ namespace GoseiVn.DemoApp.Estimates.Exporting
                             _ => _.Firstname,
                             _ => _.LastName,
                             _ => _.Mobile,
-                            _ => _.Address,
+                            _ => _.Email,
+                            _=>_.AddressLine1,
+                            _=>_.AddressLine2,
+                            _=>_.City,
+                            _=>_.State,
+                            _ => _.ZipCode,
+                            _ => _.With,
+                            _ => _.Height,
+                            _ => _.Length,
+                            _ => _.NoOfShingles,
+                            _ => _.Color,
+                            _ => _.ImportantNote,
+                            _ => _.WorkHours,
+                            _ => _.Rate,
                             _ => _.TotalAmount
                             );
-                        for (int i = 1; i <= 5; i++)
+                        for (int i = 1; i <= 18; i++)
                         {
                             sheet.Column(i).AutoFit();
                         }

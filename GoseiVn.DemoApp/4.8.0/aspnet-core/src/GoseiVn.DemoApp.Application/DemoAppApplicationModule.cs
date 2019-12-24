@@ -13,6 +13,7 @@ namespace GoseiVn.DemoApp
         public override void PreInitialize()
         {
             Configuration.Authorization.Providers.Add<DemoAppAuthorizationProvider>();
+            Configuration.Modules.AbpAutoMapper().Configurators.Add(CustomDtoMapper.CreateMappings);
         }
 
         public override void Initialize()
@@ -25,6 +26,7 @@ namespace GoseiVn.DemoApp
                 // Scan the assembly for classes which inherit from AutoMapper.Profile
                 cfg => cfg.AddMaps(thisAssembly)
             );
+            Configuration.Modules.AbpAutoMapper().Configurators.Add(CustomDtoMapper.CreateMappings);
         }
     }
 }
