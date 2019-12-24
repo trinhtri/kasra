@@ -91,7 +91,16 @@ export class EstimatesComponent extends AppComponentBase implements OnInit {
       }
     });
   }
-
+  onChangedPanigation(event) {
+    this.pageSize = event.pageSize;
+    this.pageNumber = event.pageIndex + 1;
+    this.getAll();
+  }
+  getDataPage(page: number): void {
+    this.skipCount = (page - 1) * this.pageSize;
+    this.pageNumber = page;
+    this.getAll();
+  }
   private showCreateOrEditUserDialog(id?: number): void {
     let createOrEditUserDialog;
     if (id === undefined || id <= 0) {

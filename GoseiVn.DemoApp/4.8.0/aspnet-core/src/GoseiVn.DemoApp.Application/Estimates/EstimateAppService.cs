@@ -3,6 +3,7 @@ using Abp.Collections.Extensions;
 using Abp.Domain.Repositories;
 using Abp.Extensions;
 using GoseiVn.DemoApp.Estimates.Dto;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -65,14 +66,13 @@ namespace GoseiVn.DemoApp.Estimates
                 input.Firstname = Regex.Replace(input.LastName.Trim(), @"\s+", " ");
             }
 
-            var estimates = _estimateRepository.GetAll()
+            var estimates = _estimateRepository.GetAll().Include(x => x.States)
                 .Select(x => new EstimateListDto
                 {
                     Id = x.Id,
                     LastName = x.LastName,
                     Firstname = x.Firstname,
-                    Address = x.AddressLine1 + x.AddressLine2 + x.City,
-                    Email = x.Email,
+                    Address = x.AddressLine1 + "-" + x.AddressLine2 + "-" + x.City + "-" + x.States.StateName,
                     Mobile = x.Mobile,
                     TotalAmount = x.TotalAmount
                 }).WhereIf(input.Firstname != null, x => x.Firstname.Contains(input.Firstname))

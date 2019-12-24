@@ -2390,7 +2390,6 @@ export class EstimateListDto implements IEstimateListDto {
     firstname: string | undefined;
     lastName: string | undefined;
     mobile: string | undefined;
-    email: string | undefined;
     address: string | undefined;
     totalAmount: number | undefined;
     id: number | undefined;
@@ -2409,7 +2408,6 @@ export class EstimateListDto implements IEstimateListDto {
             this.firstname = data["firstname"];
             this.lastName = data["lastName"];
             this.mobile = data["mobile"];
-            this.email = data["email"];
             this.address = data["address"];
             this.totalAmount = data["totalAmount"];
             this.id = data["id"];
@@ -2428,7 +2426,6 @@ export class EstimateListDto implements IEstimateListDto {
         data["firstname"] = this.firstname;
         data["lastName"] = this.lastName;
         data["mobile"] = this.mobile;
-        data["email"] = this.email;
         data["address"] = this.address;
         data["totalAmount"] = this.totalAmount;
         data["id"] = this.id;
@@ -2447,7 +2444,6 @@ export interface IEstimateListDto {
     firstname: string | undefined;
     lastName: string | undefined;
     mobile: string | undefined;
-    email: string | undefined;
     address: string | undefined;
     totalAmount: number | undefined;
     id: number | undefined;
