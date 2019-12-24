@@ -205,6 +205,293 @@ export class ConfigurationServiceProxy {
 }
 
 @Injectable()
+export class EstimateServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    create(input: CreateEstimateDto | null | undefined): Observable<number> {
+        let url_ = this.baseUrl + "/api/services/app/Estimate/Create";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreate(<any>response_);
+                } catch (e) {
+                    return <Observable<number>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<number>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreate(response: HttpResponseBase): Observable<number> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<number>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: number | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Estimate/Delete?";
+        if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    edit(input: CreateEstimateDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Estimate/Edit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    get(id: number | null | undefined): Observable<CreateEstimateDto> {
+        let url_ = this.baseUrl + "/api/services/app/Estimate/Get?";
+        if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGet(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGet(<any>response_);
+                } catch (e) {
+                    return <Observable<CreateEstimateDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<CreateEstimateDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGet(response: HttpResponseBase): Observable<CreateEstimateDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = CreateEstimateDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<CreateEstimateDto>(<any>null);
+    }
+
+    /**
+     * @param firstname (optional) 
+     * @param lastName (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(firstname: string | null | undefined, lastName: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfEstimateListDto> {
+        let url_ = this.baseUrl + "/api/services/app/Estimate/GetAll?";
+        if (firstname !== undefined)
+            url_ += "Firstname=" + encodeURIComponent("" + firstname) + "&"; 
+        if (lastName !== undefined)
+            url_ += "LastName=" + encodeURIComponent("" + lastName) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfEstimateListDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfEstimateListDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfEstimateListDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfEstimateListDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfEstimateListDto>(<any>null);
+    }
+}
+
+@Injectable()
 export class RoleServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -1927,6 +2214,243 @@ export class ChangeUiThemeInput implements IChangeUiThemeInput {
 
 export interface IChangeUiThemeInput {
     theme: string;
+}
+
+export class CreateEstimateDto implements ICreateEstimateDto {
+    firstname: string | undefined;
+    lastName: string | undefined;
+    mobile: string | undefined;
+    email: string | undefined;
+    addressLine1: string | undefined;
+    addressLine2: string | undefined;
+    city: string | undefined;
+    state: number | undefined;
+    zipCode: string | undefined;
+    with: number | undefined;
+    height: number | undefined;
+    length: number | undefined;
+    noOfShingles: number | undefined;
+    color: string | undefined;
+    importantNote: string | undefined;
+    workHours: number | undefined;
+    rate: number | undefined;
+    totalAmount: number | undefined;
+    id: number | undefined;
+
+    constructor(data?: ICreateEstimateDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.firstname = data["firstname"];
+            this.lastName = data["lastName"];
+            this.mobile = data["mobile"];
+            this.email = data["email"];
+            this.addressLine1 = data["addressLine1"];
+            this.addressLine2 = data["addressLine2"];
+            this.city = data["city"];
+            this.state = data["state"];
+            this.zipCode = data["zipCode"];
+            this.with = data["with"];
+            this.height = data["height"];
+            this.length = data["length"];
+            this.noOfShingles = data["noOfShingles"];
+            this.color = data["color"];
+            this.importantNote = data["importantNote"];
+            this.workHours = data["workHours"];
+            this.rate = data["rate"];
+            this.totalAmount = data["totalAmount"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateEstimateDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateEstimateDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["firstname"] = this.firstname;
+        data["lastName"] = this.lastName;
+        data["mobile"] = this.mobile;
+        data["email"] = this.email;
+        data["addressLine1"] = this.addressLine1;
+        data["addressLine2"] = this.addressLine2;
+        data["city"] = this.city;
+        data["state"] = this.state;
+        data["zipCode"] = this.zipCode;
+        data["with"] = this.with;
+        data["height"] = this.height;
+        data["length"] = this.length;
+        data["noOfShingles"] = this.noOfShingles;
+        data["color"] = this.color;
+        data["importantNote"] = this.importantNote;
+        data["workHours"] = this.workHours;
+        data["rate"] = this.rate;
+        data["totalAmount"] = this.totalAmount;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): CreateEstimateDto {
+        const json = this.toJSON();
+        let result = new CreateEstimateDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ICreateEstimateDto {
+    firstname: string | undefined;
+    lastName: string | undefined;
+    mobile: string | undefined;
+    email: string | undefined;
+    addressLine1: string | undefined;
+    addressLine2: string | undefined;
+    city: string | undefined;
+    state: number | undefined;
+    zipCode: string | undefined;
+    with: number | undefined;
+    height: number | undefined;
+    length: number | undefined;
+    noOfShingles: number | undefined;
+    color: string | undefined;
+    importantNote: string | undefined;
+    workHours: number | undefined;
+    rate: number | undefined;
+    totalAmount: number | undefined;
+    id: number | undefined;
+}
+
+export class PagedResultDtoOfEstimateListDto implements IPagedResultDtoOfEstimateListDto {
+    totalCount: number | undefined;
+    items: EstimateListDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfEstimateListDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (Array.isArray(data["items"])) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items.push(EstimateListDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfEstimateListDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfEstimateListDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+
+    clone(): PagedResultDtoOfEstimateListDto {
+        const json = this.toJSON();
+        let result = new PagedResultDtoOfEstimateListDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IPagedResultDtoOfEstimateListDto {
+    totalCount: number | undefined;
+    items: EstimateListDto[] | undefined;
+}
+
+export class EstimateListDto implements IEstimateListDto {
+    firstname: string | undefined;
+    lastName: string | undefined;
+    mobile: string | undefined;
+    email: string | undefined;
+    address: string | undefined;
+    totalAmount: number | undefined;
+    id: number | undefined;
+
+    constructor(data?: IEstimateListDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.firstname = data["firstname"];
+            this.lastName = data["lastName"];
+            this.mobile = data["mobile"];
+            this.email = data["email"];
+            this.address = data["address"];
+            this.totalAmount = data["totalAmount"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): EstimateListDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new EstimateListDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["firstname"] = this.firstname;
+        data["lastName"] = this.lastName;
+        data["mobile"] = this.mobile;
+        data["email"] = this.email;
+        data["address"] = this.address;
+        data["totalAmount"] = this.totalAmount;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): EstimateListDto {
+        const json = this.toJSON();
+        let result = new EstimateListDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IEstimateListDto {
+    firstname: string | undefined;
+    lastName: string | undefined;
+    mobile: string | undefined;
+    email: string | undefined;
+    address: string | undefined;
+    totalAmount: number | undefined;
+    id: number | undefined;
 }
 
 export class CreateRoleDto implements ICreateRoleDto {

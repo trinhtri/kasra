@@ -3,38 +3,93 @@ import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { MatDialog } from '@angular/material';
 import { AppComponentBase } from '@shared/app-component-base';
 import { CreateOrUpdateEstimateComponent } from './create-or-update-estimate/create-or-update-estimate.component';
+import {
+  EstimateListDto,
+  EstimateServiceProxy,
+  CreateEstimateDto
+} from '@shared/service-proxies/service-proxies';
 
 @Component({
   selector: 'app-estimates',
   templateUrl: './estimates.component.html',
   styleUrls: ['./estimates.component.css'],
-  animations: [appModuleAnimation()],
+  animations: [appModuleAnimation()]
 })
-export class EstimatesComponent extends AppComponentBase implements OnInit  {
+export class EstimatesComponent extends AppComponentBase implements OnInit {
+  estimates: EstimateListDto[] = [];
+  firstName: string;
+  lastName: string;
 
-  constructor( injector: Injector,
-              private _dialog: MatDialog) {
-                super(injector);
-              }
+  // panigator
+  public pageSize = 10;
+  public pageNumber = 1;
+  public totalPages = 1;
+  public totalItems: number;
+  keyword: string;
+  skipCount = (this.pageNumber - 1) * this.pageSize;
+  public isTableLoading = false;
+  constructor(
+    injector: Injector,
+    private _dialog: MatDialog,
+    private _estimateServiceProxy: EstimateServiceProxy
+  ) {
+    super(injector);
+  }
 
   ngOnInit() {
+    this.getAll();
+  }
+  getAll() {
+    this.skipCount = (this.pageNumber - 1) * this.pageSize;
+    this.isTableLoading = true;
+    this._estimateServiceProxy
+      .getAll(this.firstName, this.lastName, this.skipCount, this.pageSize)
+      .subscribe(result => {
+        this.estimates = result.items;
+        this.totalItems = result.totalCount;
+        this.totalPages =
+          (result.totalCount - (result.totalCount % this.pageSize)) /
+            this.pageSize +
+          1;
+        this.isTableLoading = false;
+      });
   }
   createEstimate(): void {
     this.showCreateOrEditUserDialog();
-}
-private showCreateOrEditUserDialog(id?: number): void {
-  let createOrEditUserDialog;
-  if (id === undefined || id <= 0) {
-      createOrEditUserDialog = this._dialog.open(CreateOrUpdateEstimateComponent);
-  } else {
-      createOrEditUserDialog = this._dialog.open(CreateOrUpdateEstimateComponent, {
-          data: id
-      });
   }
+  // tslint:disable-next-line:no-unused-expression
+  delete(estimate: EstimateListDto) {
+    this.message.confirm(
+      this.l('AreYouSureWantToDelete', estimate.firstname),
+      this.l('AreYouSure'),
+      isConfirmed => {
+        if (isConfirmed) {
+          this._estimateServiceProxy.delete(estimate.id).subscribe(result => {
+            this.getAll();
+            this.notify.info(this.l('DeleteSuccessfully'));
+          });
+        }
+      }
+    );
+  }
+  private showCreateOrEditUserDialog(id?: number): void {
+    let createOrEditUserDialog;
+    if (id === undefined || id <= 0) {
+      createOrEditUserDialog = this._dialog.open(
+        CreateOrUpdateEstimateComponent
+      );
+    } else {
+      createOrEditUserDialog = this._dialog.open(
+        CreateOrUpdateEstimateComponent,
+        {
+          data: id
+        }
+      );
+    }
 
-  createOrEditUserDialog.afterClosed().subscribe(result => {
+    createOrEditUserDialog.afterClosed().subscribe(result => {
       if (result) {
       }
-  });
-}
+    });
+  }
 }

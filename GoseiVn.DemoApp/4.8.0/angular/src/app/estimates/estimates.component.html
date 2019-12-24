@@ -36,7 +36,7 @@
                                 </mat-form-field>
                             </div>
                             <div class="col-md-12 text-right p-r-25">
-                                <button mat-raised-button color="primary" (click)="getDataPage(1)">{{ 'Search' | localize }}</button>
+                                <button mat-raised-button color="primary" (click)="getAll(1)">{{ 'Search' | localize }}</button>
                             </div>
                         </div>
                     </form>
@@ -45,17 +45,17 @@
                 <table class="table table-hover table-striped" [busy]="isTableLoading">
                     <thead>
                         <tr>
-                            <th>{{ "#" | localize }}</th>
-                            <th>{{ "First Name" | localize }}</th>
-                            <th>{{ "Last Name" | localize }}</th>
-                            <th>{{ "Phone" | localize }}</th>
-                            <th>{{ "Address" | localize }}</th>
-                            <th>{{ "Tatol Amount" | localize }}</th>
+                            <th>{{ "Actions" | localize }}</th>
+                            <th mat-sort-header="firstname">{{ "First Name" | localize }}</th>
+                            <th mat-sort-header="lastName">{{ "Last Name" | localize }}</th mat-sort-header="currencyNameVN">
+                            <th mat-sort-header="mobile">{{ "Phone" | localize }}</th mat-sort-header="currencyNameVN">
+                            <th mat-sort-header="address">{{ "Address" | localize }}</th mat-sort-header="currencyNameVN">
+                            <th mat-sort-header="totalAmount">{{ "Tatol Amount" | localize }}</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="
-                let user of (users
+                let estimate of (estimates
                   | paginate
                     : {
                         id: 'server',
@@ -69,31 +69,35 @@
                                     <mat-icon>menu</mat-icon>
                                 </button>
                                 <mat-menu #actionsMenu="matMenu">
-                                    <button mat-menu-item (click)="editUser(user)">
+                                    <button mat-menu-item (click)="viewEtiamte(estimate)">
+                                        <mat-icon>edit</mat-icon>
+                                        <span>{{ "View" | localize }}</span>
+                                    </button>
+                                    <button mat-menu-item (click)="editEstimate(estimate)">
                                         <mat-icon>edit</mat-icon>
                                         <span>{{ "Edit" | localize }}</span>
                                     </button>
-                                    <button mat-menu-item (click)="delete(user)">
+                                    <button mat-menu-item (click)="delete(estimate)">
                                         <mat-icon>delete</mat-icon>
                                         <span>{{ "Delete" | localize }}</span>
                                     </button>
-                                    <button mat-menu-item (click)="resetPassword(user)">
-                                        <mat-icon>lock</mat-icon>
-                                        <span>{{ "Reset Password" | localize }}</span>
-                                    </button>
                                 </mat-menu>
                             </td>
-                            <td>{{ user.userName }}</td>
-                            <td>{{ user.fullName }}</td>
-                            <td>{{ user.emailAddress }}</td>
-
+                            <td>{{ estimate.firstname }}</td>
+                            <td>{{ estimate.lastName }}</td>
+                            <td>{{ estimate.mobile }}</td>
+                            <td>{{ estimate.address }}</td>
+                            <td>{{ estimate.totalAmount }}</td>
                         </tr>
                     </tbody>
                 </table>
-                <div class="abp-pagination-controls-wrapper" *ngIf="totalItems > pageSize">
+                <mat-paginator [length]="totalItems" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 25, 100]" (page)="onChangedPanigation($event)">
+                </mat-paginator>
+
+                <!-- <div class="abp-pagination-controls-wrapper" *ngIf="totalItems > pageSize">
                     <abp-pagination-controls (pageChange)="getDataPage($event)" id="server">
                     </abp-pagination-controls>
-                </div>
+                </div> -->
                 <!-- <button mat-mini-fab color="primary" class="pull-right" (click)="createUser()">
                     <mat-icon>add</mat-icon>
                 </button> -->
