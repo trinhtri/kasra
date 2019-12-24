@@ -40,6 +40,10 @@ import { ResetPasswordDialogComponent } from './users/reset-password/reset-passw
 import { EstimatesComponent } from './estimates/estimates.component';
 import { CreateOrUpdateEstimateComponent } from './estimates/create-or-update-estimate/create-or-update-estimate.component';
 import { EstimateServiceProxy } from '@shared/service-proxies/service-proxies';
+import { ColorPickerModule } from 'ngx-color-picker';
+import { NgxFileDropModule } from 'ngx-file-drop';
+import { ngfModule, ngf } from 'angular-file';
+
 
 @NgModule({
   declarations: [
@@ -81,6 +85,9 @@ import { EstimateServiceProxy } from '@shared/service-proxies/service-proxies';
     ServiceProxyModule,
     SharedModule,
     NgxPaginationModule,
+    ColorPickerModule,
+    NgxFileDropModule,
+    ngfModule
   ],
   providers: [EstimateServiceProxy],
   entryComponents: [

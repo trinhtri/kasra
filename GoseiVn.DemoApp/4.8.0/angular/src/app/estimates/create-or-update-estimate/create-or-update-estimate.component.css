@@ -5,3 +5,23 @@ mat-form-field {
 mat-checkbox {
     padding-bottom: 5px;
 }
+
+div > input {
+    border: solid 1px black;
+}
+
+div > select {
+    border: solid 1px black;
+}
+
+div > textarea {
+    border: solid 1px black;
+}
+
+
+
+.previewIcon{
+    width:60px;height:60px;
+    background-size:cover;
+    background-repeat:no-repeat;
+}

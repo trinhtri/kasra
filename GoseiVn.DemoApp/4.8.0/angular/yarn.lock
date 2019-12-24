@@ -1362,6 +1362,13 @@ amdefine@>=0.0.4:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/amdefine/-/amdefine-1.0.1.tgz#4a5282ac164729e93619bcfd3ad151f817ce91f5"
 
+angular-file@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/angular-file/-/angular-file-2.0.0.tgz#da3cd88e35f99a8bc01fd57049ae35405faf852f"
+  integrity sha512-sKbuB9cTW8r8ODUav36PNUtbeRCSiMLKImsvSjzsWYafjN+i6y9nmL09Z4S/gg2uusvt8isX/Trc2euBaxHeiw==
+  dependencies:
+    tslib "^1.9.0"
+
 animate.css@^3.5.2:
   version "3.6.1"
   resolved "https://registry.yarnpkg.com/animate.css/-/animate.css-3.6.1.tgz#4ea8a48556378bc8d7535224296c4c0dac9229de"
@@ -5269,6 +5276,18 @@ ngx-bootstrap@^5.1.1:
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/ngx-bootstrap/-/ngx-bootstrap-5.1.1.tgz#aab63b218611eeeaed0c9e224f2033a992ac6e57"
   integrity sha512-++6+YHbIWTR/3sHH9C0aelIP25KMKhylWSEet6HonZfVr8quzEUjq6xEzTnDbZpnxlly2j58Gg0O9DWXu0UCxA==
+
+ngx-color-picker@^8.2.0:
+  version "8.2.0"
+  resolved "https://registry.yarnpkg.com/ngx-color-picker/-/ngx-color-picker-8.2.0.tgz#36b2e7f173e006f680dea39743d0bfc6c2531454"
+  integrity sha512-rzR+cByjNG9M/UskU5vNoH7cUc6oM8STTDFKOZmnlX4ALOuM1+61CBjsNTGETWfo9a/h5mbGX02oh5/iNAa7vA==
+
+ngx-file-drop@^8.0.8:
+  version "8.0.8"
+  resolved "https://registry.yarnpkg.com/ngx-file-drop/-/ngx-file-drop-8.0.8.tgz#eb7cc031e17627db67e7b77983daea15f4ed9411"
+  integrity sha512-0YndB66U8Quxpi4XUpirgz0snOwKjJNI4yew6scA2Z6RbavsNa02+TfxH5iU6Uu3CqlX5asYjPUtnIOf3dnsxw==
+  dependencies:
+    tslib "^1.9.0"
 
 ngx-pagination@^4.1.0:
   version "4.1.0"
