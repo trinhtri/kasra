@@ -44,6 +44,7 @@ import { ColorPickerModule } from 'ngx-color-picker';
 import { NgxFileDropModule } from 'ngx-file-drop';
 import { ngfModule, ngf } from 'angular-file';
 
+import { FileDownloadService } from '@shared/Utils/file-download.service';
 
 @NgModule({
   declarations: [
@@ -89,7 +90,7 @@ import { ngfModule, ngf } from 'angular-file';
     NgxFileDropModule,
     ngfModule
   ],
-  providers: [EstimateServiceProxy],
+  providers: [EstimateServiceProxy, FileDownloadService],
   entryComponents: [
     // tenants
     CreateTenantDialogComponent,

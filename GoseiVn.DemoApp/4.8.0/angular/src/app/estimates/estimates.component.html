@@ -2,10 +2,10 @@
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="card main-content">
             <div class="header">
-                <h2>{{ "Users" | localize }}</h2>
+                <h2>{{ "Estimates" | localize }}</h2>
 
                 <ul class="header-dropdown m-r--5">
-                    <button type="button" class="btn btn-primary pull-right">ExportToExccel</button>
+                    <button type="button" class="btn btn-primary pull-right" (click)="exportToExcel()">ExportToExccel</button>
                     <button type="button" class="btn btn-primary pull-right" (click)="createEstimate()">CreateNew</button>
                     <!-- <li>
                         <button mat-icon-button [matMenuTriggerFor]="headerMenu" class="header-dropdown-mat-icon-button">

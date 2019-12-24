@@ -13,7 +13,9 @@ namespace GoseiVn.DemoApp.Configurations
         {
             entity.ToTable("Images");
             entity.Property(e => e.ImageName).IsRequired().HasColumnType("NVARCHAR(20)");
+            entity.Property(e => e.ImageUrl).IsRequired().HasColumnType("NVARCHAR(500)");
             entity.Property(x => x.ImageSize).HasColumnType("decimal(10,2)");
+            
         }
     }
 }
