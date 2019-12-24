@@ -1,6 +1,6 @@
 import { Component, OnInit, Injector } from '@angular/core';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
-import { MatDialog } from '@angular/material';
+import { MatDialog, Sort } from '@angular/material';
 import { AppComponentBase } from '@shared/app-component-base';
 import { CreateOrUpdateEstimateComponent } from './create-or-update-estimate/create-or-update-estimate.component';
 import {
@@ -8,7 +8,7 @@ import {
   EstimateServiceProxy,
   CreateEstimateDto
 } from '@shared/service-proxies/service-proxies';
-
+import * as moment from 'moment';
 @Component({
   selector: 'app-estimates',
   templateUrl: './estimates.component.html',
@@ -72,6 +72,26 @@ export class EstimatesComponent extends AppComponentBase implements OnInit {
       }
     );
   }
+
+  sortData(sort: Sort) {
+    const data = this.estimates.slice();
+    if (!sort.active || sort.direction === '') {
+      this.estimates = data;
+      return;
+    }
+    this.estimates = data.sort((a, b) => {
+      const isAsc = sort.direction === 'asc';
+      switch (sort.active) {
+        case 'firstname': return compare(a.firstname, b.firstname, isAsc);
+        case 'lastName': return compare(a.lastName, b.lastName, isAsc);
+        case 'mobile': return compare(a.mobile, b.mobile, isAsc);
+        case 'address': return compare(a.address, b.address, isAsc);
+        case 'totalAmount': return compare(a.totalAmount, b.totalAmount, isAsc);
+        default: return 0;
+      }
+    });
+  }
+
   private showCreateOrEditUserDialog(id?: number): void {
     let createOrEditUserDialog;
     if (id === undefined || id <= 0) {
@@ -93,3 +113,7 @@ export class EstimatesComponent extends AppComponentBase implements OnInit {
     });
   }
 }
+function compare(a: number | string | moment.Moment, b: number | string | moment.Moment, isAsc: boolean) {
+  return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+}
+

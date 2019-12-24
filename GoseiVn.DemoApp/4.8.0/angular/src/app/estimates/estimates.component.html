@@ -42,14 +42,14 @@
                     </form>
                 </div>
                 <!--query end-->
-                <table class="table table-hover table-striped" [busy]="isTableLoading">
+                <table class="table table-hover table-striped" [busy]="isTableLoading" matSort (matSortChange)="sortData($event)">
                     <thead>
                         <tr>
                             <th>{{ "Actions" | localize }}</th>
                             <th mat-sort-header="firstname">{{ "First Name" | localize }}</th>
-                            <th mat-sort-header="lastName">{{ "Last Name" | localize }}</th mat-sort-header="currencyNameVN">
-                            <th mat-sort-header="mobile">{{ "Phone" | localize }}</th mat-sort-header="currencyNameVN">
-                            <th mat-sort-header="address">{{ "Address" | localize }}</th mat-sort-header="currencyNameVN">
+                            <th mat-sort-header="lastName">{{ "Last Name" | localize }}</th>
+                            <th mat-sort-header="mobile">{{ "Phone" | localize }}</th>
+                            <th mat-sort-header="address">{{ "Address" | localize }}</th>
                             <th mat-sort-header="totalAmount">{{ "Tatol Amount" | localize }}</th>
                         </tr>
                     </thead>
