@@ -8,6 +8,6 @@ namespace GoseiVn.DemoApp.Estimates.Exporting
 {
     public interface IEstimateExcelExporter
     {
-        FileDto ExportToFile(List<EstimateListDto> estimates);
+        FileDto ExportToFile(List<EstimateListForExcelDto> estimates);
     }
 }
