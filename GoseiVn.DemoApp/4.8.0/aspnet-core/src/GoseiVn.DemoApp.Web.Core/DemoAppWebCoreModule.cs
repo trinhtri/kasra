@@ -12,6 +12,8 @@ using Abp.Zero.Configuration;
 using GoseiVn.DemoApp.Authentication.JwtBearer;
 using GoseiVn.DemoApp.Configuration;
 using GoseiVn.DemoApp.EntityFrameworkCore;
+using System.IO;
+using Abp.IO;
 
 namespace GoseiVn.DemoApp
 {
@@ -64,6 +66,21 @@ namespace GoseiVn.DemoApp
         public override void Initialize()
         {
             IocManager.RegisterAssemblyByConvention(typeof(DemoAppWebCoreModule).GetAssembly());
+        }
+        public override void PostInitialize()
+        {
+            SetAppFolders();
+        }
+        private void SetAppFolders()
+        {
+            var appFolders = IocManager.Resolve<AppFolders>();
+
+            appFolders.TempFileDownloadFolder = Path.Combine(_env.WebRootPath, $"Temp{Path.DirectorySeparatorChar}Downloads");
+            appFolders.TempFileUploadFolder = Path.Combine(_env.WebRootPath, $"Temp{Path.DirectorySeparatorChar}Uploads");
+            appFolders.AttachmentsFolder = Path.Combine(_env.WebRootPath, $"Temp{Path.DirectorySeparatorChar}Images");
+            DirectoryHelper.CreateIfNotExists(appFolders.TempFileDownloadFolder);
+            DirectoryHelper.CreateIfNotExists(appFolders.TempFileUploadFolder);
+            DirectoryHelper.CreateIfNotExists(appFolders.AttachmentsFolder);
         }
     }
 }

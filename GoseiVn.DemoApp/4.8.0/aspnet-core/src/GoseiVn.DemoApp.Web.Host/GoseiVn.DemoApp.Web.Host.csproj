@@ -47,4 +47,8 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="wwwroot\Temp\Downloads\" />
+    <Folder Include="wwwroot\Temp\Images\" />
+  </ItemGroup>
 </Project>

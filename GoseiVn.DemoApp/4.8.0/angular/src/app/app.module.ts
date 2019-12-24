@@ -40,6 +40,7 @@ import { ResetPasswordDialogComponent } from './users/reset-password/reset-passw
 import { EstimatesComponent } from './estimates/estimates.component';
 import { CreateOrUpdateEstimateComponent } from './estimates/create-or-update-estimate/create-or-update-estimate.component';
 import { EstimateServiceProxy } from '@shared/service-proxies/service-proxies';
+import { FileDownloadService } from '@shared/Utils/file-download.service';
 
 @NgModule({
   declarations: [
@@ -82,7 +83,7 @@ import { EstimateServiceProxy } from '@shared/service-proxies/service-proxies';
     SharedModule,
     NgxPaginationModule,
   ],
-  providers: [EstimateServiceProxy],
+  providers: [EstimateServiceProxy, FileDownloadService],
   entryComponents: [
     // tenants
     CreateTenantDialogComponent,

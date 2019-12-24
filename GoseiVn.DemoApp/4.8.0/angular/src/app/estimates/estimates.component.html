@@ -5,7 +5,7 @@
                 <h2>{{ "Estimates" | localize }}</h2>
 
                 <ul class="header-dropdown m-r--5">
-                    <button type="button" class="btn btn-primary pull-right">ExportToExccel</button>
+                    <button type="button" class="btn btn-primary pull-right" (click)="exportToExcel()">ExportToExccel</button>
                     <button type="button" class="btn btn-primary pull-right" (click)="createEstimate()">CreateNew</button>
                     <!-- <li>
                         <button mat-icon-button [matMenuTriggerFor]="headerMenu" class="header-dropdown-mat-icon-button">

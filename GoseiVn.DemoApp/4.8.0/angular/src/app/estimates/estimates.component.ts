@@ -9,6 +9,7 @@ import {
   CreateEstimateDto
 } from '@shared/service-proxies/service-proxies';
 import * as moment from 'moment';
+import { FileDownloadService } from '@shared/Utils/file-download.service';
 @Component({
   selector: 'app-estimates',
   templateUrl: './estimates.component.html',
@@ -31,7 +32,8 @@ export class EstimatesComponent extends AppComponentBase implements OnInit {
   constructor(
     injector: Injector,
     private _dialog: MatDialog,
-    private _estimateServiceProxy: EstimateServiceProxy
+    private _estimateServiceProxy: EstimateServiceProxy,
+    private _fileDownloadService: FileDownloadService
   ) {
     super(injector);
   }
@@ -101,6 +103,13 @@ export class EstimatesComponent extends AppComponentBase implements OnInit {
     this.pageNumber = page;
     this.getAll();
   }
+  exportToExcel() {
+    this._estimateServiceProxy
+    .getEstimateToExcel(this.firstName, this.lastName, this.skipCount, this.pageSize)
+    .subscribe(result => {
+      this._fileDownloadService.downloadTempFile(result);
+    });
+  }
   private showCreateOrEditUserDialog(id?: number): void {
     let createOrEditUserDialog;
     if (id === undefined || id <= 0) {
@@ -118,6 +127,7 @@ export class EstimatesComponent extends AppComponentBase implements OnInit {
 
     createOrEditUserDialog.afterClosed().subscribe(result => {
       if (result) {
+        this.getAll();
       }
     });
   }

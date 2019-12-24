@@ -11,6 +11,9 @@
     <RootNamespace>GoseiVn.DemoApp</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="EPPlus" Version="4.5.3.2" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\GoseiVn.DemoApp.Core\GoseiVn.DemoApp.Core.csproj" />
   </ItemGroup>
 </Project>
