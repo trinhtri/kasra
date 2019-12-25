@@ -11,6 +11,10 @@ div>input {
     margin-left: 15px;
 }
 
+.mt-15 {
+    margin-top: 15px;
+}
+
 .pr-15 {
     padding-right: 15px;
 }
@@ -44,6 +48,10 @@ div>input {
         position: static;
         padding-top: 65px;
     }
+}
+
+.header {
+    background-color: #f5f5f5;
 }
 
 .mt-6 {
