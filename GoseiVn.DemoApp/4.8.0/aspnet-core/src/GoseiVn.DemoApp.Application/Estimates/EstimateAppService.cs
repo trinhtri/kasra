@@ -135,13 +135,26 @@ namespace GoseiVn.DemoApp.Estimates
             }
 
             var estimates = _estimateRepository.GetAll().Include(x => x.States)
-                .Select(x => new EstimateListDto
+                .Select(x => new EstimateListForExcelDto
                 {
                     Id = x.Id,
                     LastName = x.LastName,
                     Firstname = x.Firstname,
-                    Address = x.AddressLine1 + "-" + x.AddressLine2 + "-" + x.City + "-" + x.States.StateName,
                     Mobile = x.Mobile,
+                    Rate=x.Rate,
+                    WorkHours=x.WorkHours,
+                    ImportantNote=x.ImportantNote,
+                    Color=x.Color,
+                    NoOfShingles=x.NoOfShingles,
+                    ZipCode=x.ZipCode,
+                    State=x.States.StateName,
+                    AddressLine1=x.AddressLine1,
+                    AddressLine2=x.AddressLine2,
+                    City=x.City,
+                    Email=x.Email,
+                    Height=x.Height,
+                    Length=x.Length,
+                    With=x.With,
                     TotalAmount = x.TotalAmount
                 }).WhereIf(input.Firstname != null, x => x.Firstname.Contains(input.Firstname))
                 .WhereIf(input.LastName != null, x => x.LastName.Contains(input.LastName))

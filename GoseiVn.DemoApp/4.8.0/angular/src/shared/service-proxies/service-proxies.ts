@@ -569,7 +569,7 @@ export class EstimateExcelExporterServiceProxy {
      * @param estimates (optional) 
      * @return Success
      */
-    exportToFile(estimates: EstimateListDto[] | null | undefined): Observable<FileDto> {
+    exportToFile(estimates: EstimateListForExcelDto[] | null | undefined): Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/EstimateExcelExporter/ExportToFile";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -2700,6 +2700,121 @@ export interface IFileDto {
     fileName: string;
     fileType: string;
     fileToken: string;
+}
+
+export class EstimateListForExcelDto implements IEstimateListForExcelDto {
+    firstname: string | undefined;
+    lastName: string | undefined;
+    mobile: string | undefined;
+    email: string | undefined;
+    addressLine1: string | undefined;
+    addressLine2: string | undefined;
+    city: string | undefined;
+    state: string | undefined;
+    zipCode: string | undefined;
+    with: number | undefined;
+    height: number | undefined;
+    length: number | undefined;
+    noOfShingles: number | undefined;
+    color: string | undefined;
+    importantNote: string | undefined;
+    workHours: number | undefined;
+    rate: number | undefined;
+    totalAmount: number | undefined;
+    id: number | undefined;
+
+    constructor(data?: IEstimateListForExcelDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.firstname = data["firstname"];
+            this.lastName = data["lastName"];
+            this.mobile = data["mobile"];
+            this.email = data["email"];
+            this.addressLine1 = data["addressLine1"];
+            this.addressLine2 = data["addressLine2"];
+            this.city = data["city"];
+            this.state = data["state"];
+            this.zipCode = data["zipCode"];
+            this.with = data["with"];
+            this.height = data["height"];
+            this.length = data["length"];
+            this.noOfShingles = data["noOfShingles"];
+            this.color = data["color"];
+            this.importantNote = data["importantNote"];
+            this.workHours = data["workHours"];
+            this.rate = data["rate"];
+            this.totalAmount = data["totalAmount"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): EstimateListForExcelDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new EstimateListForExcelDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["firstname"] = this.firstname;
+        data["lastName"] = this.lastName;
+        data["mobile"] = this.mobile;
+        data["email"] = this.email;
+        data["addressLine1"] = this.addressLine1;
+        data["addressLine2"] = this.addressLine2;
+        data["city"] = this.city;
+        data["state"] = this.state;
+        data["zipCode"] = this.zipCode;
+        data["with"] = this.with;
+        data["height"] = this.height;
+        data["length"] = this.length;
+        data["noOfShingles"] = this.noOfShingles;
+        data["color"] = this.color;
+        data["importantNote"] = this.importantNote;
+        data["workHours"] = this.workHours;
+        data["rate"] = this.rate;
+        data["totalAmount"] = this.totalAmount;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): EstimateListForExcelDto {
+        const json = this.toJSON();
+        let result = new EstimateListForExcelDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IEstimateListForExcelDto {
+    firstname: string | undefined;
+    lastName: string | undefined;
+    mobile: string | undefined;
+    email: string | undefined;
+    addressLine1: string | undefined;
+    addressLine2: string | undefined;
+    city: string | undefined;
+    state: string | undefined;
+    zipCode: string | undefined;
+    with: number | undefined;
+    height: number | undefined;
+    length: number | undefined;
+    noOfShingles: number | undefined;
+    color: string | undefined;
+    importantNote: string | undefined;
+    workHours: number | undefined;
+    rate: number | undefined;
+    totalAmount: number | undefined;
+    id: number | undefined;
 }
 
 export class CreateRoleDto implements ICreateRoleDto {
