@@ -13,9 +13,7 @@ namespace GoseiVn.DemoApp.Controllers.Dto
 
         public string FileName { get; set; }
 
-        public int Width { get; set; }
-
-        public int Height { get; set; }
+        public decimal Size { get; set; }
 
         public ErrorInfo ErrorInfo { get; set; }
     }

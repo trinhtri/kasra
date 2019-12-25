@@ -10,6 +10,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using Abp.Web.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace GoseiVn.DemoApp.Controllers
 {
@@ -24,12 +25,13 @@ namespace GoseiVn.DemoApp.Controllers
             _appFolders = appFolders;
         }
 
-        public UploadProfilePictureOutput UploadProfilePicture()
+        public List<UploadProfilePictureOutput> UploadProfilePicture()
         {
-            try
+            //try
+            //{ 
+            var result = new List<UploadProfilePictureOutput>();
+            foreach (var profilePictureFile in Request.Form.Files)
             {
-                var profilePictureFile = Request.Form.Files.First();
-
                 if (profilePictureFile == null)
                 {
                     throw new UserFriendlyException(L("File_Change_Error_Message"), L("ProfilePicture_Change_Error_Details"));
@@ -56,27 +58,33 @@ namespace GoseiVn.DemoApp.Controllers
 
                 //Save new picture
                 var fileInfo = new FileInfo(profilePictureFile.FileName);
-                var tempFileName = "userProfileImage_" + AbpSession.GetUserId() + fileInfo.Extension;
+                var tempFileName = "image_" + Guid.NewGuid() + fileInfo.Extension;
                 var tempFilePath = Path.Combine(_appFolders.TempFileDownloadFolder, tempFileName);
                 System.IO.File.WriteAllBytes(tempFilePath, fileBytes);
 
                 using (var bmpImage = new Bitmap(tempFilePath))
                 {
-                    return new UploadProfilePictureOutput
+                    var item = new UploadProfilePictureOutput
                     {
                         FileName = tempFileName,
-                        Width = bmpImage.Width,
-                        Height = bmpImage.Height
+                        Size = decimal.Parse(bmpImage.Size.ToString())
                     };
+                    result.Add(item);
                 }
             }
-            catch (UserFriendlyException ex)
-            {
-                return new UploadProfilePictureOutput
-                {
-                    ErrorInfo = new ErrorInfo(ex.Message, ex.Details)
-                };
-            }
+
+            return result;
+            //var profilePictureFile = Request.Form.Files.First();
+
+
+            //}
+            //catch (UserFriendlyException ex)
+            //{
+            //    return new UploadProfilePictureOutput
+            //    {
+            //        ErrorInfo = new ErrorInfo(ex.Message, ex.Details)
+            //    };
+            //}
         }
 
         public ActionResult DownloadTempFile(FileDto file)
