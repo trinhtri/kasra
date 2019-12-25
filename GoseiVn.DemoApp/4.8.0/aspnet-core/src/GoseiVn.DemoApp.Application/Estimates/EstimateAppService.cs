@@ -99,7 +99,7 @@ namespace GoseiVn.DemoApp.Estimates
 
             if (!input.LastName.IsNullOrEmpty())
             {
-                input.Firstname = Regex.Replace(input.LastName.Trim(), @"\s+", " ");
+                input.LastName = Regex.Replace(input.LastName.Trim(), @"\s+", " ");
             }
 
             var estimates = _estimateRepository.GetAll().Include(x => x.States)
