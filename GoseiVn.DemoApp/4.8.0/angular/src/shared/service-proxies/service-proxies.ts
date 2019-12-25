@@ -548,6 +548,61 @@ export class EstimateServiceProxy {
         }
         return _observableOf<FileDto>(<any>null);
     }
+
+    /**
+     * @return Success
+     */
+    getAllState(): Observable<StateDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Estimate/GetAllState";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllState(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllState(<any>response_);
+                } catch (e) {
+                    return <Observable<StateDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<StateDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllState(response: HttpResponseBase): Observable<StateDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200.push(StateDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<StateDto[]>(<any>null);
+    }
 }
 
 @Injectable()
@@ -2696,6 +2751,53 @@ export interface IFileDto {
     fileName: string;
     fileType: string;
     fileToken: string;
+}
+
+export class StateDto implements IStateDto {
+    stateId: number | undefined;
+    stateName: string | undefined;
+
+    constructor(data?: IStateDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.stateId = data["stateId"];
+            this.stateName = data["stateName"];
+        }
+    }
+
+    static fromJS(data: any): StateDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new StateDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["stateId"] = this.stateId;
+        data["stateName"] = this.stateName;
+        return data; 
+    }
+
+    clone(): StateDto {
+        const json = this.toJSON();
+        let result = new StateDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IStateDto {
+    stateId: number | undefined;
+    stateName: string | undefined;
 }
 
 export class EstimateListForExcelDto implements IEstimateListForExcelDto {

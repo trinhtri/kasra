@@ -10,7 +10,7 @@ import {
 } from '@angular/common/http';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { AppConsts } from '@shared/AppConsts';
-import { EstimateServiceProxy, CreateEstimateDto, CreateImageDto } from '@shared/service-proxies/service-proxies';
+import { EstimateServiceProxy, CreateEstimateDto, CreateImageDto, StateDto } from '@shared/service-proxies/service-proxies';
 import { DecimalPipe } from '@angular/common';
 @Component({
   selector: 'app-create-or-update-estimate',
@@ -38,6 +38,7 @@ export class CreateOrUpdateEstimateComponent  extends AppComponentBase implement
 
   estimateInput: CreateEstimateDto;
   imageInput: ImageInput[] = [];
+  states: StateDto[] = [];
   // tslint:disable-next-line:no-shadowed-variable
   constructor(injector: Injector, public HttpClient: HttpClient,
     private _estimateServiceProxy: EstimateServiceProxy,
@@ -48,6 +49,7 @@ export class CreateOrUpdateEstimateComponent  extends AppComponentBase implement
 
   ngOnInit() {
     this.estimateInput = new CreateEstimateDto();
+    this.getAllState();
   }
 
   close(result: any): void {
@@ -71,6 +73,11 @@ export class CreateOrUpdateEstimateComponent  extends AppComponentBase implement
     this.uploadFiles(this.files);
   }
 
+  getAllState() {
+    this._estimateServiceProxy.getAllState().subscribe(result => {
+      this.states = result;
+    });
+  }
   uploadFiles(files: File[]): Subscription {
     const formData: FormData = new FormData();
     for (let i = 0; i < files.length; i++) {

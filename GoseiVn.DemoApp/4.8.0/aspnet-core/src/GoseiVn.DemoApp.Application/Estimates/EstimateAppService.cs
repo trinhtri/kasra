@@ -16,6 +16,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 
 namespace GoseiVn.DemoApp.Estimates
 {
@@ -46,7 +47,6 @@ namespace GoseiVn.DemoApp.Estimates
             try
             {
                 var estimate = ObjectMapper.Map<Models.Estimates>(input);
-                estimate.StateId = 4;
                 var estimatesId = await _estimateRepository.InsertAndGetIdAsync(estimate);
                 //image
                 if (input.ListFileName.Count > 0)
@@ -168,6 +168,17 @@ namespace GoseiVn.DemoApp.Estimates
                 .WhereIf(input.LastName != null, x => x.LastName.Contains(input.LastName))
                 .ToList();
             return _estimateExcelExporter.ExportToFile(estimates);
+        }
+
+        public async Task<List<StateDto>> GetAllState()
+        {
+            var result = await _stateRepository.GetAll()
+                .Select(c => new StateDto
+                {
+                    StateId = c.Id,
+                    StateName = c.StateName
+                }).ToListAsync();
+            return result;
         }
     }
 }
