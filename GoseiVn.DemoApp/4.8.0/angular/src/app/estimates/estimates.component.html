@@ -26,16 +26,26 @@
                     <form>
                         <div class="row">
                             <div class="col-md-6">
-                                <mat-form-field>
+                                <div class="form-group ml-15">
+                                    <label for="FirstName">First Name</label>
+                                    <input type="text" class="form-control" id="firstName" [(ngModel)]="firstName" name="firstName">
+                                </div>
+
+                                <!-- <mat-form-field>
                                     <input matInput [placeholder]="l('First Name')" [(ngModel)]="firstName" name="firstName">
-                                </mat-form-field>
+                                </mat-form-field> -->
                             </div>
                             <div class="col-md-6">
-                                <mat-form-field>
+                                <div class="form-group mr-15">
+                                    <label for="LastName">Last Name</label>
+                                    <input type="text" class="form-control" id="lastName" [(ngModel)]="lastName" name="lastName">
+                                </div>
+
+                                <!-- <mat-form-field>
                                     <input matInput [placeholder]="l('Last Name')" [(ngModel)]="lastName" name="lastName">
-                                </mat-form-field>
+                                </mat-form-field> -->
                             </div>
-                            <div class="col-md-12 text-right p-r-25">
+                            <div class="col-md-12 text-right p-r-25 mt-28">
                                 <button mat-raised-button color="primary" (click)="getAll(1)">{{ 'Search' | localize }}</button>
                             </div>
                         </div>
