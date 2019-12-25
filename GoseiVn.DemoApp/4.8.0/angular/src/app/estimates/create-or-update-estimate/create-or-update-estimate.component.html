@@ -90,12 +90,10 @@
                             <input matInput name="numberOfShingles" [placeholder]="'Number of shingles' | localize" />
                         </mat-form-field>
                     </div>
-                    <div class="col-md-1">
-                        <div class="form-group">
-                            <label for="color">Color</label>
-                            <input class="form-control" [(colorPicker)]="color" [style.background]="color" id="color"
-                                (colorPickerChange)="colorChanged($event)" />
-                        </div>
+                    <div class="col-md-4">
+                        <span for="color" style=" float: left; padding-top: 16px; margin-right: 10px; color:#7c7c7c;">Color</span>
+                        <input class="form-control" style="width:50px; float:left; margin-top: 4px;" [(colorPicker)]="color"
+                            [style.background]="color" id="color" (colorPickerChange)="colorChanged($event)" />
                     </div>
                 </div>
             </div>
