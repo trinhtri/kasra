@@ -4,14 +4,16 @@ using GoseiVn.DemoApp.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GoseiVn.DemoApp.Migrations
 {
     [DbContext(typeof(DemoAppDbContext))]
-    partial class DemoAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191225082852_StateTable")]
+    partial class StateTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1132,11 +1134,11 @@ namespace GoseiVn.DemoApp.Migrations
 
                     b.Property<DateTime?>("DeletionTime");
 
-                    b.Property<int>("EstimatesId");
+                    b.Property<int?>("EstimatesId");
 
                     b.Property<string>("ImageName")
                         .IsRequired()
-                        .HasColumnType("NVARCHAR(500)");
+                        .HasColumnType("NVARCHAR(20)");
 
                     b.Property<decimal>("ImageSize")
                         .HasColumnType("decimal(10,2)");
@@ -1398,8 +1400,7 @@ namespace GoseiVn.DemoApp.Migrations
                 {
                     b.HasOne("GoseiVn.DemoApp.Models.Estimates", "Estimates")
                         .WithMany()
-                        .HasForeignKey("EstimatesId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("EstimatesId");
                 });
 
             modelBuilder.Entity("GoseiVn.DemoApp.MultiTenancy.Tenant", b =>

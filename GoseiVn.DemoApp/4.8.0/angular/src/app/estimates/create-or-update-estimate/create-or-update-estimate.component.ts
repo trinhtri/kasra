@@ -47,6 +47,7 @@ export class CreateOrUpdateEstimateComponent  extends AppComponentBase implement
   }
 
   ngOnInit() {
+    this.estimateInput = new CreateEstimateDto();
   }
 
   close(result: any): void {
@@ -86,13 +87,19 @@ export class CreateOrUpdateEstimateComponent  extends AppComponentBase implement
       if (event instanceof HttpResponse) {
         this.imageInput = (event.body as any).result as ImageInput[];
         // tslint:disable-next-line:prefer-const
-        let imageInput: CreateImageDto;
+
+        const listImage: CreateImageDto[] = [];
         this.imageInput.forEach(element => {
+          const imageInput = new CreateImageDto();
           imageInput.imageName = element.fileName;
           imageInput.imageSize = element.size;
 
-          this.estimateInput.listFileName.push(imageInput);
+          listImage.push(imageInput);
         });
+        console.log(listImage);
+        this.estimateInput.listFileName = listImage;
+        console.log(this.estimateInput);
+        this.createEstimate();
 
       }
     },
@@ -104,5 +111,4 @@ export class CreateOrUpdateEstimateComponent  extends AppComponentBase implement
 export class ImageInput {
   fileName: string;
   size: number;
-  errorInfo: string;
 }

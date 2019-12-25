@@ -219,7 +219,7 @@ export class EstimateServiceProxy {
      * @param input (optional) 
      * @return Success
      */
-    create(input: CreateEstimateDto | null | undefined): Observable<number> {
+    create(input: CreateEstimateDto | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Estimate/Create";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -231,7 +231,6 @@ export class EstimateServiceProxy {
             responseType: "blob",
             headers: new HttpHeaders({
                 "Content-Type": "application/json", 
-                "Accept": "application/json"
             })
         };
 
@@ -242,14 +241,14 @@ export class EstimateServiceProxy {
                 try {
                     return this.processCreate(<any>response_);
                 } catch (e) {
-                    return <Observable<number>><any>_observableThrow(e);
+                    return <Observable<void>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<number>><any>_observableThrow(response_);
+                return <Observable<void>><any>_observableThrow(response_);
         }));
     }
 
-    protected processCreate(response: HttpResponseBase): Observable<number> {
+    protected processCreate(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -258,17 +257,14 @@ export class EstimateServiceProxy {
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 !== undefined ? resultData200 : <any>null;
-            return _observableOf(result200);
+            return _observableOf<void>(<any>null);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<number>(<any>null);
+        return _observableOf<void>(<any>null);
     }
 
     /**
@@ -2355,7 +2351,7 @@ export class CreateEstimateDto implements ICreateEstimateDto {
     addressLine1: string | undefined;
     addressLine2: string | undefined;
     city: string | undefined;
-    state: number | undefined;
+    stateId: number | undefined;
     zipCode: string | undefined;
     with: number | undefined;
     height: number | undefined;
@@ -2387,7 +2383,7 @@ export class CreateEstimateDto implements ICreateEstimateDto {
             this.addressLine1 = data["addressLine1"];
             this.addressLine2 = data["addressLine2"];
             this.city = data["city"];
-            this.state = data["state"];
+            this.stateId = data["stateId"];
             this.zipCode = data["zipCode"];
             this.with = data["with"];
             this.height = data["height"];
@@ -2423,7 +2419,7 @@ export class CreateEstimateDto implements ICreateEstimateDto {
         data["addressLine1"] = this.addressLine1;
         data["addressLine2"] = this.addressLine2;
         data["city"] = this.city;
-        data["state"] = this.state;
+        data["stateId"] = this.stateId;
         data["zipCode"] = this.zipCode;
         data["with"] = this.with;
         data["height"] = this.height;
@@ -2459,7 +2455,7 @@ export interface ICreateEstimateDto {
     addressLine1: string | undefined;
     addressLine2: string | undefined;
     city: string | undefined;
-    state: number | undefined;
+    stateId: number | undefined;
     zipCode: string | undefined;
     with: number | undefined;
     height: number | undefined;

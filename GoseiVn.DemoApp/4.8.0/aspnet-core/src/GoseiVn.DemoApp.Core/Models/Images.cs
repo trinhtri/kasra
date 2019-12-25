@@ -7,9 +7,12 @@ namespace GoseiVn.DemoApp.Models
 {
    public class Images: FullAuditedEntity
     {
-        public virtual Estimates Estimates { get; set; }
         public string ImageName { get; set; }
         public decimal ImageSize { get; set; }
         public string ImageUrl { get; set; }
+
+        public int EstimatesId { get; set; }
+        public virtual Estimates Estimates { get; set; }
+
     }
 }

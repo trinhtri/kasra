@@ -16,7 +16,7 @@ namespace GoseiVn.DemoApp.Estimates.Dto
         public string AddressLine1 { get; set; }
         public string AddressLine2 { get; set; }
         public string City { get; set; }
-        public int State { get; set; }
+        public int StateId { get; set; }
         public string ZipCode { get; set; }
         public decimal With { get; set; }
         public decimal Height { get; set; }

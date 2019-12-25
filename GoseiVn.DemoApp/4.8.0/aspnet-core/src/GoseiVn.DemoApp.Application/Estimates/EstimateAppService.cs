@@ -39,37 +39,45 @@ namespace GoseiVn.DemoApp.Estimates
             _imageRepository = imageRepository;
             _stateRepository = stateRepository;
             _estimateExcelExporter = estimateExcelExporter;
+            _appFolders = appFolders;
         }
-        public async Task<int> Create(CreateEstimateDto input)
+        public async Task Create(CreateEstimateDto input)
         {
-            var estimate = ObjectMapper.Map<Models.Estimates>(input);
-            await _estimateRepository.InsertAsync(estimate);
-            await CurrentUnitOfWork.SaveChangesAsync();
-            //image
-            if(input.ListFileName.Count > 0)
+            try
             {
-                foreach(var item in input.ListFileName)
+                var estimate = ObjectMapper.Map<Models.Estimates>(input);
+                estimate.StateId = 4;
+                var estimatesId = await _estimateRepository.InsertAndGetIdAsync(estimate);
+                //image
+                if (input.ListFileName.Count > 0)
                 {
-                    var image = ObjectMapper.Map<Models.Images>(item);
-                    if (item.ImageName != null)
+                    foreach (var item in input.ListFileName)
                     {
-                        //Delete old document file
-                        AppFileHelper.DeleteFilesInFolderIfExists(_appFolders.AttachmentsFolder, item.ImageName);
-                        var sourceFile = Path.Combine(_appFolders.TempFileUploadFolder, item.ImageName);
-                        var destFile = Path.Combine(_appFolders.AttachmentsFolder, item.ImageName);
-                        System.IO.File.Move(sourceFile, destFile);
-                        var filePath = Path.Combine(_appFolders.AttachmentsFolder, item.ImageName);
-                        image.ImageUrl = filePath;
-                        image.ImageName = filePath;
-                        image.ImageSize = item.ImageSize;
-                        image.Estimates.Id = estimate.Id;
+                        var image = ObjectMapper.Map<Models.Images>(item);
+                        if (item.ImageName != null)
+                        {
+                            //Delete old document file
+                            AppFileHelper.DeleteFilesInFolderIfExists(_appFolders.AttachmentsFolder, item.ImageName);
+                            var sourceFile = Path.Combine(_appFolders.TempFileDownloadFolder, item.ImageName);
+                            var destFile = Path.Combine(_appFolders.AttachmentsFolder, item.ImageName);
+                            System.IO.File.Move(sourceFile, destFile);
+                            var filePath = Path.Combine(_appFolders.AttachmentsFolder, item.ImageName);
+                            image.ImageUrl = filePath;
+                            image.ImageName = filePath;
+                            image.ImageSize = item.ImageSize;
+                            image.EstimatesId = estimatesId;
+                            await _imageRepository.InsertAsync(image);
+                            
+                        }
                     }
-
-                    await _imageRepository.InsertAsync(image);
+                    await CurrentUnitOfWork.SaveChangesAsync();
                 }
             }
+            catch (Exception e)
+            {
 
-            return estimate.Id;
+                throw;
+            }
         }
 
         public async Task Delete(int id)
