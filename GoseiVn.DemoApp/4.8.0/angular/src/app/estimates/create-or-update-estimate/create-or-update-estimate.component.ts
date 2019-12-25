@@ -1,6 +1,6 @@
-import { Component, OnInit, Injector } from '@angular/core';
+import { Component, OnInit, Injector, Optional, Inject } from '@angular/core';
 import { AppComponentBase } from '@shared/app-component-base';
-import { MatDialogRef } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import {
   HttpClient,
   HttpClientModule,
@@ -34,22 +34,41 @@ export class CreateOrUpdateEstimateComponent extends AppComponentBase implements
   baseDropValid: any;
 
   postUrl = AppConsts.remoteServiceBaseUrl + '/Profile/UploadProfilePicture';
+  viewImageUrl = AppConsts.remoteServiceBaseUrl + '/Home/Image/';
+
   myFormData: FormData;
   httpEvent: HttpEvent<{}>;
 
-  estimateInput: CreateEstimateDto;
+  estimateInput: CreateEstimateDto = new CreateEstimateDto();
   imageInput: ImageInput[] = [];
   decimalMask: string;
   states: StateDto[] = [];
+  images: any[] = [];
+
   // tslint:disable-next-line:no-shadowed-variable
   constructor(injector: Injector, public HttpClient: HttpClient,
     private _estimateServiceProxy: EstimateServiceProxy,
-    private _dialogRef: MatDialogRef<CreateOrUpdateEstimateComponent>
+    private _dialogRef: MatDialogRef<CreateOrUpdateEstimateComponent>,
+    @Optional() @Inject(MAT_DIALOG_DATA) private _id: number
   ) {
     super(injector);
   }
 
   ngOnInit() {
+    if (this._id) {
+      this._estimateServiceProxy.getDataForEdit(this._id).subscribe(result => {
+        this.estimateInput = result;
+        if (this.estimateInput.listFileName.length > 0) {
+          for (let i = 0; i < this.estimateInput.listFileName.length; i++) {
+            this.images.push({
+              src: (this.viewImageUrl + this.estimateInput.listFileName[i].id.toString()),
+              fileName: this.estimateInput.listFileName[i].imageName
+            });
+          }
+        }
+      });
+    }
+    console.log(this._id);
     this.decimalMask = createNumberMask({
       prefix: '',
       allowDecimal: true,
@@ -58,11 +77,11 @@ export class CreateOrUpdateEstimateComponent extends AppComponentBase implements
       digits: 2,
       allowLeadingZeroes: true
     });
-    this.estimateInput = new CreateEstimateDto();
     this.getAllState();
   }
 
   close(result: any): void {
+    this.estimateInput = new CreateEstimateDto();
     this._dialogRef.close(result);
   }
 
@@ -82,6 +101,7 @@ export class CreateOrUpdateEstimateComponent extends AppComponentBase implements
   save() {
     this.uploadFiles(this.files);
   }
+
 
   getAllState() {
     this._estimateServiceProxy.getAllState().subscribe(result => {
@@ -123,6 +143,20 @@ export class CreateOrUpdateEstimateComponent extends AppComponentBase implements
         error => {
           alert('!upload fails' + error.toString());
         });
+  }
+  keyPress(event: any) {
+    const pattern = /[0-9]/;
+
+    const inputChar = String.fromCharCode(event.charCode);
+    if (event.keyCode !== 8 && !pattern.test(inputChar)) {
+      event.preventDefault();
+    }
+  }
+
+  Calculate() {
+    const workHours = +this.estimateInput.workHours.toString().split(',').join('').toString();
+    const rate = +this.estimateInput.rate.toString().split(',').join('').toString();
+    this.estimateInput.totalAmount = workHours * rate;
   }
 }
 export class ImageInput {

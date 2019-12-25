@@ -5,11 +5,13 @@
                 <h2>{{ "Search estimates" | localize }}</h2>
 
                 <ul class="header-dropdown m-r--5 mt-6 pr-10">
-                    <button type="button" class="btn btn-primary pull-right" (click)="exportToExcel()" mat-raised-button>
+                    <button type="button" class="btn btn-primary pull-right" (click)="exportToExcel()"
+                        mat-raised-button>
                         <mat-icon>get_app</mat-icon>
-                        <span>Export to excel</span> 
+                        <span>Export to excel</span>
                     </button>
-                    <button type="button" class="btn btn-primary pull-right" (click)="createEstimate()" mat-raised-button>
+                    <button type="button" class="btn btn-primary pull-right" (click)="createEstimate()"
+                        mat-raised-button>
                         <mat-icon>add</mat-icon>
                         <span>Create new</span>
                     </button>
@@ -66,10 +68,10 @@
                                 </button>
                                 <mat-menu #actionsMenu="matMenu">
 
-                                    <button mat-menu-item (click)="editEstimate(estimate)">
+                                    <!-- <button mat-menu-item (click)="editEstimate(estimate.id)">
                                         <mat-icon>edit</mat-icon>
                                         <span>{{ "Edit" | localize }}</span>
-                                    </button>
+                                    </button> -->
                                     <button mat-menu-item (click)="delete(estimate)">
                                         <mat-icon>delete</mat-icon>
                                         <span>{{ "Delete" | localize }}</span>

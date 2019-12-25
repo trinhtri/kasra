@@ -2,21 +2,17 @@
 using Abp.Collections.Extensions;
 using Abp.Domain.Repositories;
 using Abp.Extensions;
-using Abp.IO;
-using Abp.UI;
 using GoseiVn.DemoApp.Estimates.Dto;
 using GoseiVn.DemoApp.Estimates.Exporting;
 using GoseiVn.DemoApp.IO;
+using GoseiVn.DemoApp.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using JetBrains.Annotations;
 
 namespace GoseiVn.DemoApp.Estimates
 {
@@ -42,6 +38,7 @@ namespace GoseiVn.DemoApp.Estimates
             _estimateExcelExporter = estimateExcelExporter;
             _appFolders = appFolders;
         }
+
         public async Task Create(CreateEstimateDto input)
         {
             try
@@ -67,7 +64,6 @@ namespace GoseiVn.DemoApp.Estimates
                             image.ImageSize = item.ImageSize;
                             image.EstimatesId = estimatesId;
                             await _imageRepository.InsertAsync(image);
-                            
                         }
                     }
                     await CurrentUnitOfWork.SaveChangesAsync();
@@ -75,7 +71,6 @@ namespace GoseiVn.DemoApp.Estimates
             }
             catch (Exception e)
             {
-
                 throw;
             }
         }
@@ -149,20 +144,20 @@ namespace GoseiVn.DemoApp.Estimates
                     LastName = x.LastName,
                     Firstname = x.Firstname,
                     Mobile = x.Mobile,
-                    Rate=x.Rate,
-                    WorkHours=x.WorkHours,
-                    ImportantNote=x.ImportantNote,
-                    Color=x.Color,
-                    NoOfShingles=x.NoOfShingles,
-                    ZipCode=x.ZipCode,
-                    State=x.States.StateName,
-                    AddressLine1=x.AddressLine1,
-                    AddressLine2=x.AddressLine2,
-                    City=x.City,
-                    Email=x.Email,
-                    Height=x.Height,
-                    Length=x.Length,
-                    With=x.With,
+                    Rate = x.Rate,
+                    WorkHours = x.WorkHours,
+                    ImportantNote = x.ImportantNote,
+                    Color = x.Color,
+                    NoOfShingles = x.NoOfShingles,
+                    ZipCode = x.ZipCode,
+                    State = x.States.StateName,
+                    AddressLine1 = x.AddressLine1,
+                    AddressLine2 = x.AddressLine2,
+                    City = x.City,
+                    Email = x.Email,
+                    Height = x.Height,
+                    Length = x.Length,
+                    With = x.With,
                     TotalAmount = x.TotalAmount
                 }).WhereIf(input.Firstname != null, x => x.Firstname.Contains(input.Firstname))
                 .WhereIf(input.LastName != null, x => x.LastName.Contains(input.LastName))
@@ -179,6 +174,21 @@ namespace GoseiVn.DemoApp.Estimates
                     StateName = c.StateName
                 }).ToListAsync();
             return result;
+        }
+
+        public async Task<CreateEstimateDto> GetDataForEdit(int id)
+        {
+            var estimate = await _estimateRepository.GetAll().Include(x => x.ListImg).Where(x => x.Id == id).FirstOrDefaultAsync();
+            var dto = ObjectMapper.Map<CreateEstimateDto>(estimate);
+            dto.ListFileName = ObjectMapper.Map<List<CreateImageDto>>(estimate.ListImg);
+            return dto;
+        }
+
+        public Images GetImageById(int id)
+        {
+            var image = _imageRepository.GetAll().FirstOrDefault(t => t.Id == id);
+
+            return image;
         }
     }
 }

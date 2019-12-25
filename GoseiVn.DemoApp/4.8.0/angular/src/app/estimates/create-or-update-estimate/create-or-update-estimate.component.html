@@ -19,7 +19,7 @@
             <div class="col-md-6">
                 <mat-form-field>
                     <input matInput name="mobile" [placeholder]="'Mobile' | localize" required [(ngModel)]="estimateInput.mobile"
-                        maxlength="10" />
+                        maxlength="10" (keypress)="keyPress($event)" />
                 </mat-form-field>
             </div>
             <div class="col-md-6">
@@ -110,18 +110,18 @@
         <div class="panel panel-default">
             <div class="panel-heading">Upload images</div>
             <div class="panel-body">
-                <div class="col-md-3">
-                    <div class="inline-block">
-                        <div ngfDrop multiple="1" selectable="1" [(validDrag)]="validComboDrag" [(files)]="files"
-                            accept="image/*" [maxSize]="maxSize" [(lastInvalids)]="lastInvalids" [(dragFiles)]="dragFiles"
-                            class="well my-drop-zone" [class.invalid-drag]="validComboDrag===false" [class.valid-drag]="validComboDrag"
-                            (filesChange)="lastFileAt=getDate()" [fileDropDisabled]="fileDropDisabled">
-                            <i class="fa fa-paperclip" aria-hidden="true"></i><br>
-                            Add file or drop here
+                <div class="col-md-12">
+                    <div class="inline-block" style="text-align: center;">
+                        <div style="border: dotted #028af4;" ngfDrop multiple="1" selectable="1" [(validDrag)]="validComboDrag"
+                            [(files)]="files" accept="image/*" [maxSize]="maxSize" [(lastInvalids)]="lastInvalids"
+                            [(dragFiles)]="dragFiles" class="well my-drop-zone" [class.invalid-drag]="validComboDrag===false"
+                            [class.valid-drag]="validComboDrag" (filesChange)="lastFileAt=getDate()" [fileDropDisabled]="fileDropDisabled">
+                            <i style="font-size:30px" class="fa fa-paperclip" aria-hidden="true"></i><br>
+                            <h3>Add file or drop here</h3>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-9" style="overflow-x:auto">
+                <div class="col-md-12" style="overflow-x:auto">
                     <table class="table" style="width:100%">
                         <thead>
                             <tr>
@@ -138,6 +138,7 @@
                                     <div *ngIf="['image/gif','image/png','image/jpeg'].indexOf(item.type)>=0">
                                         <div class="previewIcon" [ngfBackground]="item"></div>
                                     </div>
+                                    <!-- <img src="{{item.src}}" style="width: 100px; height:100px;" alt="{{item.fileName}}"> -->
                                 </td>
                                 <td><strong>{{ item.name }}</strong></td>
                                 <!-- <td nowrap>
@@ -174,18 +175,18 @@
                     <div class="col-md-4">
                         <mat-form-field>
                             <input type="text" [textMask]="{mask: decimalMask}" matInput name="workHour" [placeholder]="'Work hours' | localize"
-                                [(ngModel)]="estimateInput.workHours" />
+                                [(ngModel)]="estimateInput.workHours" (ngModelChange)="Calculate()" />
                         </mat-form-field>
                     </div>
                     <div class="col-md-4">
                         <mat-form-field>
                             <input type="text" [textMask]="{mask: decimalMask}" matInput name="rate" [placeholder]="'Rate (USD/ hour)' | localize"
-                                [(ngModel)]="estimateInput.rate" />
+                                [(ngModel)]="estimateInput.rate" (ngModelChange)="Calculate()" />
                         </mat-form-field>
                     </div>
                     <div class="col-md-4">
                         <mat-form-field>
-                            <input type="text" [textMask]="{mask: decimalMask}" matInput name="totalAmount"
+                            <input disabled type="text" [textMask]="{mask: decimalMask}" matInput name="totalAmount"
                                 [placeholder]="'Total amount ($)' | localize" [(ngModel)]="estimateInput.totalAmount" />
                         </mat-form-field>
                     </div>

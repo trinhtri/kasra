@@ -51,13 +51,16 @@ export class EstimatesComponent extends AppComponentBase implements OnInit {
         this.totalItems = result.totalCount;
         this.totalPages =
           (result.totalCount - (result.totalCount % this.pageSize)) /
-            this.pageSize +
+          this.pageSize +
           1;
         this.isTableLoading = false;
       });
   }
   createEstimate(): void {
     this.showCreateOrEditUserDialog();
+  }
+  editEstimate(id) {
+    this.showCreateOrEditUserDialog(id);
   }
   // tslint:disable-next-line:no-unused-expression
   delete(estimate: EstimateListDto) {
@@ -105,10 +108,10 @@ export class EstimatesComponent extends AppComponentBase implements OnInit {
   }
   exportToExcel() {
     this._estimateServiceProxy
-    .getEstimateToExcel(this.firstName, this.lastName, this.skipCount, this.pageSize)
-    .subscribe(result => {
-      this._fileDownloadService.downloadTempFile(result);
-    });
+      .getEstimateToExcel(this.firstName, this.lastName, this.skipCount, this.pageSize)
+      .subscribe(result => {
+        this._fileDownloadService.downloadTempFile(result);
+      });
   }
   private showCreateOrEditUserDialog(id?: number): void {
     let createOrEditUserDialog;

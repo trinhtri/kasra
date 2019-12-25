@@ -1,20 +1,28 @@
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using Abp;
 using Abp.Extensions;
 using Abp.Notifications;
 using Abp.Timing;
+using Abp.UI;
 using GoseiVn.DemoApp.Controllers;
+using GoseiVn.DemoApp.Estimates;
+using GoseiVn.DemoApp.Models;
+using GoseiVn.DemoApp.Shared;
+using Microsoft.AspNetCore.Mvc;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace GoseiVn.DemoApp.Web.Host.Controllers
 {
     public class HomeController : DemoAppControllerBase
     {
         private readonly INotificationPublisher _notificationPublisher;
+        private readonly IEstimateAppService _estimateAppService;
 
-        public HomeController(INotificationPublisher notificationPublisher)
+        public HomeController(INotificationPublisher notificationPublisher, IEstimateAppService estimateAppService)
+
         {
             _notificationPublisher = notificationPublisher;
+            _estimateAppService = estimateAppService;
         }
 
         public IActionResult Index()
@@ -46,6 +54,20 @@ namespace GoseiVn.DemoApp.Web.Host.Controllers
             );
 
             return Content("Sent notification: " + message);
+        }
+
+        public ActionResult Image(int id)
+        {
+            Images imageObject = _estimateAppService.GetImageById(id);
+
+            if (imageObject == null)
+            {
+                throw new UserFriendlyException(L("ImageNotFound"));
+            }
+
+            var fileBytes = System.IO.File.ReadAllBytes(imageObject.ImageUrl);
+
+            return File(fileBytes, MimeTypeMap.GetMimeType(Path.GetExtension(imageObject.ImageUrl)), Path.GetFileName(imageObject.ImageUrl));
         }
     }
 }

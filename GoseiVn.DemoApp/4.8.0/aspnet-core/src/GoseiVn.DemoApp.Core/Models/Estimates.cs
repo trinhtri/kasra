@@ -1,13 +1,15 @@
-﻿using Abp.Domain.Entities;
-using Abp.Domain.Entities.Auditing;
-using System;
+﻿using Abp.Domain.Entities.Auditing;
 using System.Collections.Generic;
-using System.Text;
 
 namespace GoseiVn.DemoApp.Models
 {
     public class Estimates : FullAuditedEntity
     {
+        public Estimates()
+        {
+            ListImg = new HashSet<Images>();
+        }
+
         public string Firstname { get; set; }
         public string LastName { get; set; }
         public string Mobile { get; set; }
@@ -19,7 +21,7 @@ namespace GoseiVn.DemoApp.Models
         public int StateId { get; set; }
         public virtual States States { get; set; }
 
-        public string ZipCode { get; set;}
+        public string ZipCode { get; set; }
         public decimal With { get; set; }
         public decimal Height { get; set; }
         public decimal Length { get; set; }
@@ -29,6 +31,7 @@ namespace GoseiVn.DemoApp.Models
         public decimal WorkHours { get; set; }
         public decimal Rate { get; set; }
         public decimal TotalAmount { get; set; }
-        
+
+        public virtual ICollection<Images> ListImg { get; set; }
     }
 }
