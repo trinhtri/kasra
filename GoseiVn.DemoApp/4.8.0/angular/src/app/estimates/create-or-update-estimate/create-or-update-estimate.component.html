@@ -76,25 +76,26 @@
                 <div class="row">
                     <div class="col-md-2">
                         <mat-form-field>
-                            <input type="number" matInput name="width" [placeholder]="'Width' | localize" [(ngModel)]="estimateInput.width" />
+                            <input type="text" [textMask]="{mask: decimalMask}" matInput name="width" [placeholder]="'Width' | localize"
+                                [(ngModel)]="estimateInput.width" />
                         </mat-form-field>
                     </div>
                     <div class="col-md-2">
                         <mat-form-field>
-                            <input type="number" matInput name="height" [placeholder]="'Height' | localize" [(ngModel)]="estimateInput.height"
-                                maxlength="12" />
+                            <input type="text" [textMask]="{mask: decimalMask}" matInput name="height" [placeholder]="'Height' | localize"
+                                [(ngModel)]="estimateInput.height" />
                         </mat-form-field>
                     </div>
                     <div class="col-md-2">
                         <mat-form-field>
-                            <input type="number" matInput name="length" [placeholder]="'Length' | localize" [(ngModel)]="estimateInput.length"
-                                maxlength="12" />
+                            <input type="text" [textMask]="{mask: decimalMask}" matInput name="length" [placeholder]="'Length' | localize"
+                                [(ngModel)]="estimateInput.length" />
                         </mat-form-field>
                     </div>
                     <div class="col-md-2">
                         <mat-form-field>
-                            <input type="number" matInput name="numberOfShingles" [placeholder]="'Number of shingles' | localize"
-                                [(ngModel)]="estimateInput.noOfShingles" maxlength="12" />
+                            <input type="text" [textMask]="{mask: decimalMask}" matInput name="numberOfShingles"
+                                [placeholder]="'Number of shingles' | localize" [(ngModel)]="estimateInput.noOfShingles" />
                         </mat-form-field>
                     </div>
                     <div class="col-md-4">
@@ -172,20 +173,20 @@
                 <div class="row">
                     <div class="col-md-4">
                         <mat-form-field>
-                            <input type="number" matInput name="workHour" [placeholder]="'Work hours' | localize"
-                                [(ngModel)]="estimateInput.workHours" pattern="[0-9]+([\.,][0-9]+)?" maxlength="6" />
+                            <input type="text" [textMask]="{mask: decimalMask}" matInput name="workHour" [placeholder]="'Work hours' | localize"
+                                [(ngModel)]="estimateInput.workHours" />
                         </mat-form-field>
                     </div>
                     <div class="col-md-4">
                         <mat-form-field>
-                            <input type="number" matInput name="rate" [placeholder]="'Rate (USD/ hour)' | localize"
-                                [(ngModel)]="estimateInput.rate" maxlength="12" />
+                            <input type="text" [textMask]="{mask: decimalMask}" matInput name="rate" [placeholder]="'Rate (USD/ hour)' | localize"
+                                [(ngModel)]="estimateInput.rate" />
                         </mat-form-field>
                     </div>
                     <div class="col-md-4">
                         <mat-form-field>
-                            <input type="number" matInput name="totalAmount" [placeholder]="'Total amount ($)' | localize"
-                                [(ngModel)]="estimateInput.totalAmount" maxlength="12" />
+                            <input type="text" [textMask]="{mask: decimalMask}" matInput name="totalAmount"
+                                [placeholder]="'Total amount ($)' | localize" [(ngModel)]="estimateInput.totalAmount" />
                         </mat-form-field>
                     </div>
                 </div>

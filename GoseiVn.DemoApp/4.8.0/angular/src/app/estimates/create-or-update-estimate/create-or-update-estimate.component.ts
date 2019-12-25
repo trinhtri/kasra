@@ -12,6 +12,7 @@ import { Subscription } from 'rxjs/internal/Subscription';
 import { AppConsts } from '@shared/AppConsts';
 import { EstimateServiceProxy, CreateEstimateDto, CreateImageDto, StateDto } from '@shared/service-proxies/service-proxies';
 import { DecimalPipe } from '@angular/common';
+import createNumberMask from 'text-mask-addons/dist/createNumberMask';
 @Component({
   selector: 'app-create-or-update-estimate',
   templateUrl: './create-or-update-estimate.component.html',
@@ -46,17 +47,17 @@ export class CreateOrUpdateEstimateComponent extends AppComponentBase implements
     private _dialogRef: MatDialogRef<CreateOrUpdateEstimateComponent>
   ) {
     super(injector);
-    // this.decimalMask = createNumberMask({
-    //   prefix: '',
-    //   allowDecimal: true,
-    //   integerLimit: 10,
-    //   autoGroup: true,
-    //   digits: 2,
-    //   allowLeadingZeroes: true
-    // });
   }
 
   ngOnInit() {
+    this.decimalMask = createNumberMask({
+      prefix: '',
+      allowDecimal: true,
+      integerLimit: 10,
+      autoGroup: true,
+      digits: 2,
+      allowLeadingZeroes: true
+    });
     this.estimateInput = new CreateEstimateDto();
     this.getAllState();
   }

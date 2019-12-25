@@ -43,6 +43,7 @@ import { EstimateServiceProxy } from '@shared/service-proxies/service-proxies';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { NgxFileDropModule } from 'ngx-file-drop';
 import { ngfModule, ngf } from 'angular-file';
+import { TextMaskModule } from 'angular2-text-mask';
 
 import { FileDownloadService } from '@shared/Utils/file-download.service';
 
@@ -88,7 +89,8 @@ import { FileDownloadService } from '@shared/Utils/file-download.service';
     NgxPaginationModule,
     ColorPickerModule,
     NgxFileDropModule,
-    ngfModule
+    ngfModule,
+    TextMaskModule
   ],
   providers: [EstimateServiceProxy, FileDownloadService],
   entryComponents: [
@@ -107,4 +109,4 @@ import { FileDownloadService } from '@shared/Utils/file-download.service';
     CreateOrUpdateEstimateComponent
   ]
 })
-export class AppModule {}
+export class AppModule { }
