@@ -21,5 +21,7 @@ namespace GoseiVn.DemoApp.Estimates
         Task<CreateEstimateDto> Get(int id);
 
         Task<FileDto> GetEstimateToExcel(EstimateInput input);
+
+        Task<List<StateDto>> GetAllState();
     }
 }
