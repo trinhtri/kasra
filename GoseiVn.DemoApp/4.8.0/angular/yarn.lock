@@ -1362,12 +1362,10 @@ amdefine@>=0.0.4:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/amdefine/-/amdefine-1.0.1.tgz#4a5282ac164729e93619bcfd3ad151f817ce91f5"
 
-angular-file@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/angular-file/-/angular-file-2.0.0.tgz#da3cd88e35f99a8bc01fd57049ae35405faf852f"
-  integrity sha512-sKbuB9cTW8r8ODUav36PNUtbeRCSiMLKImsvSjzsWYafjN+i6y9nmL09Z4S/gg2uusvt8isX/Trc2euBaxHeiw==
-  dependencies:
-    tslib "^1.9.0"
+angular-file@1.3.2:
+  version "1.3.2"
+  resolved "https://registry.yarnpkg.com/angular-file/-/angular-file-1.3.2.tgz#c3afa87242f66925f35e15b2db1c5285db8754c9"
+  integrity sha512-k4HGJJ/JXGmNA8iV206I5WOHbufOy6L5f2MYHiUuGjlDiWjEJmjo8sxnNJsR79FzkjbL41TWRDAH2gi4VTUYKw==
 
 animate.css@^3.5.2:
   version "3.6.1"
