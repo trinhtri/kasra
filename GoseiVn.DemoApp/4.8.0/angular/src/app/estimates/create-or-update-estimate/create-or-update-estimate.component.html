@@ -65,7 +65,7 @@
             </div>
             <div class="col-md-4">
                 <mat-form-field>
-                    <input matInput name="code" [placeholder]="'Code' | localize" [(ngModel)]="estimateInput.code" />
+                    <input matInput name="code" [placeholder]="'Code' | localize" [(ngModel)]="estimateInput.zipCode" />
                 </mat-form-field>
             </div>
         </div>
@@ -77,7 +77,7 @@
                     <div class="col-md-2">
                         <mat-form-field>
                             <input type="text" [textMask]="{mask: decimalMask}" matInput name="width" [placeholder]="'Width' | localize"
-                                [(ngModel)]="estimateInput.width" />
+                                [(ngModel)]="estimateInput.with" />
                         </mat-form-field>
                     </div>
                     <div class="col-md-2">
