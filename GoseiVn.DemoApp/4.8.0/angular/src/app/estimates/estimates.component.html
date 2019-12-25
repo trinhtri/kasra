@@ -4,20 +4,9 @@
             <div class="header">
                 <h2>{{ "Estimates" | localize }}</h2>
 
-                <ul class="header-dropdown m-r--5">
-                    <button type="button" class="btn btn-primary pull-right" (click)="exportToExcel()">ExportToExccel</button>
-                    <button type="button" class="btn btn-primary pull-right" (click)="createEstimate()">CreateNew</button>
-                    <!-- <li>
-                        <button mat-icon-button [matMenuTriggerFor]="headerMenu" class="header-dropdown-mat-icon-button">
-                            <mat-icon>more_vert</mat-icon>
-                        </button>
-                        <mat-menu #headerMenu="matMenu">
-                            <button mat-menu-item (click)="refresh()">
-                                <mat-icon>refresh</mat-icon>
-                                <span>{{ "Refresh" | localize }}</span>
-                            </button>
-                        </mat-menu>
-                    </li> -->
+                <ul class="header-dropdown m-r--5 mt-6 pr-10">
+                    <button type="button" class="btn btn-primary pull-right" (click)="exportToExcel()">Export to exccel</button>
+                    <button type="button" class="btn btn-primary pull-right" (click)="createEstimate()">Create new</button>
                 </ul>
             </div>
             <div class="body table-responsive">
@@ -26,26 +15,16 @@
                     <form>
                         <div class="row">
                             <div class="col-md-6">
-                                <div class="form-group ml-15">
-                                    <label for="FirstName">First Name</label>
-                                    <input type="text" class="form-control" id="firstName" [(ngModel)]="firstName" name="firstName">
-                                </div>
-
-                                <!-- <mat-form-field>
+                                <mat-form-field class="ml-15">
                                     <input matInput [placeholder]="l('First Name')" [(ngModel)]="firstName" name="firstName">
-                                </mat-form-field> -->
+                                </mat-form-field>
                             </div>
                             <div class="col-md-6">
-                                <div class="form-group mr-15">
-                                    <label for="LastName">Last Name</label>
-                                    <input type="text" class="form-control" id="lastName" [(ngModel)]="lastName" name="lastName">
-                                </div>
-
-                                <!-- <mat-form-field>
+                                <mat-form-field class="pr-15">
                                     <input matInput [placeholder]="l('Last Name')" [(ngModel)]="lastName" name="lastName">
-                                </mat-form-field> -->
+                                </mat-form-field>
                             </div>
-                            <div class="col-md-12 text-right p-r-25 mt-28">
+                            <div class="col-md-12 text-right p-r-25 m-28">
                                 <button mat-raised-button color="primary" (click)="getAll(1)">{{ 'Search' | localize }}</button>
                             </div>
                         </div>
@@ -55,11 +34,11 @@
                 <table class="table table-hover table-striped" [busy]="isTableLoading" matSort (matSortChange)="sortData($event)">
                     <thead>
                         <tr>
-                            <th>{{ "Actions" | localize }}</th>
+                            <th style="max-width:30px;">{{ "Actions" | localize }}</th>
                             <th mat-sort-header="firstname">{{ "First Name" | localize }}</th>
                             <th mat-sort-header="lastName">{{ "Last Name" | localize }}</th>
                             <th mat-sort-header="mobile">{{ "Phone" | localize }}</th>
-                            <th mat-sort-header="address">{{ "Address" | localize }}</th>
+                            <th style="min-width:300px;" mat-sort-header="address">{{ "Address" | localize }}</th>
                             <th mat-sort-header="totalAmount">{{ "Tatol Amount" | localize }}</th>
                         </tr>
                     </thead>
@@ -97,21 +76,13 @@
                             <td>{{ estimate.lastName }}</td>
                             <td>{{ estimate.mobile }}</td>
                             <td>{{ estimate.address }}</td>
-                            <td>{{ estimate.totalAmount }}</td>
+                            <td>{{ estimate.totalAmount | number}}</td>
                         </tr>
                     </tbody>
                 </table>
                 <mat-paginator [length]="totalItems" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 25, 100]" (page)="onChangedPanigation($event)">
                 </mat-paginator>
-
-                <!-- <div class="abp-pagination-controls-wrapper" *ngIf="totalItems > pageSize">
-                    <abp-pagination-controls (pageChange)="getDataPage($event)" id="server">
-                    </abp-pagination-controls>
-                </div> -->
-                <!-- <button mat-mini-fab color="primary" class="pull-right" (click)="createUser()">
-                    <mat-icon>add</mat-icon>
-                </button> -->
             </div>
         </div>
     </div>
-</div>
+</div>s
