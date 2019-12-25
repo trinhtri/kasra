@@ -43,8 +43,7 @@ namespace GoseiVn.DemoApp.Estimates
         public async Task<int> Create(CreateEstimateDto input, List<CreateImageDto> listFileName)
         {
             var estimate = ObjectMapper.Map<Models.Estimates>(input);
-            //await _estimateRepository.InsertAsync(estimate);
-            var estimateId = await _estimateRepository.InsertAndGetIdAsync(estimate);
+            await _estimateRepository.InsertAsync(estimate);
             await CurrentUnitOfWork.SaveChangesAsync();
             //image
             if(listFileName.Count > 0)
@@ -63,7 +62,7 @@ namespace GoseiVn.DemoApp.Estimates
                         image.ImageUrl = filePath;
                         image.ImageName = filePath;
                         image.ImageSize = item.ImageSize;
-                        image.Estimates.Id = estimateId;
+                        image.Estimates.Id = estimate.Id;
                     }
 
                     await _imageRepository.InsertAsync(image);
@@ -136,26 +135,13 @@ namespace GoseiVn.DemoApp.Estimates
             }
 
             var estimates = _estimateRepository.GetAll().Include(x => x.States)
-                .Select(x => new EstimateListForExcelDto
+                .Select(x => new EstimateListDto
                 {
                     Id = x.Id,
                     LastName = x.LastName,
                     Firstname = x.Firstname,
+                    Address = x.AddressLine1 + "-" + x.AddressLine2 + "-" + x.City + "-" + x.States.StateName,
                     Mobile = x.Mobile,
-                    Rate=x.Rate,
-                    WorkHours=x.WorkHours,
-                    ImportantNote=x.ImportantNote,
-                    Color=x.Color,
-                    NoOfShingles=x.NoOfShingles,
-                    Length=x.Length,
-                    Height=x.Height,
-                    With=x.With,
-                    ZipCode=x.ZipCode,
-                    AddressLine1=x.AddressLine1,
-                    AddressLine2=x.AddressLine2,
-                    City=x.City,
-                    Email=x.Email,
-                    State=x.States.StateName,
                     TotalAmount = x.TotalAmount
                 }).WhereIf(input.Firstname != null, x => x.Firstname.Contains(input.Firstname))
                 .WhereIf(input.LastName != null, x => x.LastName.Contains(input.LastName))
