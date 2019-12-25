@@ -1,77 +1,68 @@
 <form autocomplete="off" #createUserModal="ngForm" (ngSubmit)="save()">
     <h1 mat-dialog-title>{{ "Create Estimate" | localize }}</h1>
-    <mat-dialog-content style="width:700px;height:800px;">
+    <mat-dialog-content>
         <div class="row">
             <div class="col-md-6">
-                <div class="form-group">
-                    <label for="firstName">First Name</label>
-                    <input type="text" class="form-control" id="firstName" placeholder="First Name">
-                </div>
+                <mat-form-field>
+                    <input matInput name="firstName" [placeholder]="'First Name' | localize" required />
+                </mat-form-field>
             </div>
             <div class="col-md-6">
-                <div class="form-group">
-                    <label for="lastName">Last Name</label>
-                    <input type="text" class="form-control" id="lastName" placeholder="Last Name">
-                </div>
+                <mat-form-field>
+                    <input matInput name="lastName" [placeholder]="'Last Name' | localize" required />
+                </mat-form-field>
             </div>
         </div>
         <div class="row">
             <div class="col-md-6">
-                <div class="form-group">
-                    <label for="mobile">Mobile</label>
-                    <input type="text" class="form-control" id="mobile">
-                </div>
+                <mat-form-field>
+                    <input matInput name="mobile" [placeholder]="'Mobile' | localize" required />
+                </mat-form-field>
             </div>
             <div class="col-md-6">
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" class="form-control" id="email">
-                </div>
+                <mat-form-field>
+                    <input matInput name="email" [placeholder]="'Email' | localize" />
+                </mat-form-field>
             </div>
         </div>
 
         <div class="row">
             <div class="col-md-12">
-                <div class="form-group">
-                    <label for="addressLine1">Address line 1</label>
-                    <input type="text" class="form-control" id="addressLine1">
-                </div>
+                <mat-form-field>
+                    <input matInput name="addressLine1" [placeholder]="'Address line1' | localize" />
+                </mat-form-field>
             </div>
         </div>
 
         <div class="row">
             <div class="col-md-12">
-                <div class="form-group">
-                    <label for="addressLine2">Address line 2</label>
-                    <input type="text" class="form-control" id="addressLine2">
-                </div>
+                <mat-form-field>
+                    <input matInput name="addressLine2" [placeholder]="'Address line2' | localize" />
+                </mat-form-field>
             </div>
         </div>
 
         <div class="row">
             <div class="col-md-4">
-                <div class="form-group">
-                    <label for="city">City</label>
-                    <input type="text" class="form-control" id="city">
-                </div>
+                <mat-form-field>
+                    <input matInput name="city" [placeholder]="'City' | localize" />
+                </mat-form-field>
             </div>
             <div class="col-md-4">
-                <div class="form-group">
-                    <label for="state">State</label>
-                    <select class="form-control" id="state">
-                      <option>-Status-</option>
-                      <option>2</option>
-                      <option>3</option>
-                      <option>4</option>
-                      <option>5</option>
-                    </select>
-                </div>
+                <mat-form-field>
+                    <mat-select [placeholder]="l('State')" name="state">
+                        <mat-option value="">{{ '- State -' | localize }}</mat-option>
+                        <mat-option value="2">2</mat-option>
+                        <mat-option value="3">3</mat-option>
+                        <mat-option value="4">4</mat-option>
+                        <mat-option value="5">5</mat-option>
+                    </mat-select>
+                </mat-form-field>
             </div>
             <div class="col-md-4">
-                <div class="form-group">
-                    <label for="code">Code</label>
-                    <input type="text" class="form-control" id="code">
-                </div>
+                <mat-form-field>
+                    <input matInput name="code" [placeholder]="'Code' | localize" />
+                </mat-form-field>
             </div>
         </div>
 
@@ -80,34 +71,30 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-md-2">
-                        <div class="form-group">
-                            <label for="width">Width</label>
-                            <input type="text" class="form-control" id="width">
-                        </div>
+                        <mat-form-field>
+                            <input matInput name="width" [placeholder]="'Width' | localize" />
+                        </mat-form-field>
                     </div>
                     <div class="col-md-2">
-                        <div class="form-group">
-                            <label for="height">Height</label>
-                            <input type="text" class="form-control" id="height">
-                        </div>
+                        <mat-form-field>
+                            <input matInput name="height" [placeholder]="'Height' | localize" />
+                        </mat-form-field>
                     </div>
                     <div class="col-md-2">
-                        <div class="form-group">
-                            <label for="length">Length</label>
-                            <input type="text" class="form-control" id="length">
-                        </div>
+                        <mat-form-field>
+                            <input matInput name="length" [placeholder]="'Length' | localize" />
+                        </mat-form-field>
                     </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="shingles">Number of shingles</label>
-                            <input type="text" class="form-control" id="shingles">
-                        </div>
+                    <div class="col-md-2">
+                        <mat-form-field>
+                            <input matInput name="numberOfShingles" [placeholder]="'Number of shingles' | localize" />
+                        </mat-form-field>
                     </div>
                     <div class="col-md-1">
                         <div class="form-group">
                             <label for="color">Color</label>
-                            <input class="form-control" [(colorPicker)]="color"
-                                [style.background]="color" id="color" (colorPickerChange)="colorChanged($event)"/>
+                            <input class="form-control" [(colorPicker)]="color" [style.background]="color" id="color"
+                                (colorPickerChange)="colorChanged($event)" />
                         </div>
                     </div>
                 </div>
@@ -119,74 +106,60 @@
             <div class="panel-body">
                 <div class="col-md-3">
                     <div class="inline-block">
-                        <div
-                          ngfDrop
-                          multiple         = "1"
-                          selectable       = "1"
-                          [(validDrag)]    = "validComboDrag"
-                          [(files)]        = "files"
-                          accept           = "image/*"
-                          [maxSize]        = "maxSize"
-                          [(lastInvalids)] = "lastInvalids"
-                          [(dragFiles)]    = "dragFiles"
-                          class            = "well my-drop-zone"
-                          [class.invalid-drag] = "validComboDrag===false"
-                          [class.valid-drag]   = "validComboDrag"
-                          (filesChange) = "lastFileAt=getDate()"
-                          [fileDropDisabled] = "fileDropDisabled"
-                        >
-                        <i class="fa fa-paperclip" aria-hidden="true"></i><br>
-                        Add file or drop here
+                        <div ngfDrop multiple="1" selectable="1" [(validDrag)]="validComboDrag" [(files)]="files"
+                            accept="image/*" [maxSize]="maxSize" [(lastInvalids)]="lastInvalids" [(dragFiles)]="dragFiles"
+                            class="well my-drop-zone" [class.invalid-drag]="validComboDrag===false" [class.valid-drag]="validComboDrag"
+                            (filesChange)="lastFileAt=getDate()" [fileDropDisabled]="fileDropDisabled">
+                            <i class="fa fa-paperclip" aria-hidden="true"></i><br>
+                            Add file or drop here
                         </div>
-                      </div>
+                    </div>
                 </div>
                 <div class="col-md-9">
                     <div style="margin-bottom: 20px">
                         <table class="table">
                             <thead>
-                              <tr>
-                                <th></th>
-                                <th>Name</th>
-                                <!-- <th>Type</th> -->
-                                <th>Size</th>
-                                <th>Actions</th>
-                              </tr>
+                                <tr>
+                                    <th></th>
+                                    <th>Name</th>
+                                    <!-- <th>Type</th> -->
+                                    <th>Size</th>
+                                    <th>Actions</th>
+                                </tr>
                             </thead>
                             <tbody>
-                              <tr *ngFor="let item of files;let i=index">
-                                <td>
-                                  <div *ngIf="['image/gif','image/png','image/jpeg'].indexOf(item.type)>=0">
-                                    <div class="previewIcon" [ngfBackground]="item"></div>
-                                  </div>
-                                </td>
-                                <td><strong>{{ item.name }}</strong></td>
-                                <!-- <td nowrap>
+                                <tr *ngFor="let item of files;let i=index">
+                                    <td>
+                                        <div *ngIf="['image/gif','image/png','image/jpeg'].indexOf(item.type)>=0">
+                                            <div class="previewIcon" [ngfBackground]="item"></div>
+                                        </div>
+                                    </td>
+                                    <td><strong>{{ item.name }}</strong></td>
+                                    <!-- <td nowrap>
                                   {{ item.type }}
                                 </td> -->
-                                <td nowrap>
-                                  {{ item.size/1024/1024 | number:'.2' }} MB
-                                </td>
-                                <td nowrap>
-                                  <button type="button"
-                                    class="btn btn-danger btn-xs"
-                                    (click)="files.splice(i,1)"
-                                  >
-                                    <span class="glyphicon glyphicon-trash"></span>
-                                  </button>
-                                </td>
-                              </tr>
+                                    <td nowrap>
+                                        {{ item.size/1024/1024 | number:'.2' }} MB
+                                    </td>
+                                    <td nowrap>
+                                        <button type="button" class="btn btn-danger btn-xs" (click)="files.splice(i,1)">
+                                            <span class="glyphicon glyphicon-trash"></span>
+                                        </button>
+                                    </td>
+                                </tr>
                             </tbody>
-                          </table>
+                        </table>
                     </div>
-                    
+
                 </div>
             </div>
         </div>
 
         <div class="row">
             <div class="form-group col-md-12">
-                <label for="note">Important note</label>
-                <textarea class="form-control" id="note" rows="3"></textarea>
+                <mat-form-field>
+                    <textarea matInput name="note" [placeholder]="'Note' | localize"></textarea>
+                </mat-form-field>
             </div>
         </div>
 
@@ -195,34 +168,31 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="workHours">Work hours</label>
-                            <input type="text" class="form-control" id="workHours">
-                        </div>
+                        <mat-form-field>
+                            <input matInput name="workHour" [placeholder]="'Work hours' | localize" />
+                        </mat-form-field>
                     </div>
                     <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="rate">Rate (USD/ hour)</label>
-                            <input type="text" class="form-control" id="rate">
-                        </div>
+                        <mat-form-field>
+                            <input matInput name="rate" [placeholder]="'Rate (USD/ hour)' | localize" />
+                        </mat-form-field>
                     </div>
                     <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="amount">Total amount ($)</label>
-                            <input type="text" class="form-control" id="amount">
-                        </div>
+                        <mat-form-field>
+                            <input matInput name="totalAmount" [placeholder]="'Total amount ($)' | localize" />
+                        </mat-form-field>
                     </div>
                 </div>
             </div>
         </div>
-       
+
     </mat-dialog-content>
     <div mat-dialog-actions align="end">
         <button mat-button type="button" [disabled]="saving" (click)="close(false)">
-        {{ "Cancel" | localize }}
-      </button>
+            {{ "Cancel" | localize }}
+        </button>
         <button mat-flat-button type="submit" flex="15" color="primary" [disabled]="!createUserModal.form.valid || saving">
-        {{ "Save" | localize }}
-      </button>
+            {{ "Save" | localize }}
+        </button>
     </div>
 </form>
