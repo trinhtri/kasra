@@ -23,7 +23,7 @@ import { EstimatesComponent } from './estimates/estimates.component';
                     { path: 'tenants', component: TenantsComponent, data: { permission: 'Pages.Tenants' }, canActivate: [AppRouteGuard] },
                     { path: 'about', component: AboutComponent },
                     { path: 'update-password', component: ChangePasswordComponent },
-                    { path: 'estimates', component: EstimatesComponent }
+                    { path: 'estimates', component: EstimatesComponent ,  canActivate: [AppRouteGuard]}
                 ]
             }
         ])
