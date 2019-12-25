@@ -17,7 +17,7 @@ import { DecimalPipe } from '@angular/common';
   templateUrl: './create-or-update-estimate.component.html',
   styleUrls: ['./create-or-update-estimate.component.css']
 })
-export class CreateOrUpdateEstimateComponent  extends AppComponentBase implements OnInit {
+export class CreateOrUpdateEstimateComponent extends AppComponentBase implements OnInit {
   saving = false;
   color = '#5a24ea';
   accept = '*';
@@ -38,12 +38,21 @@ export class CreateOrUpdateEstimateComponent  extends AppComponentBase implement
 
   estimateInput: CreateEstimateDto;
   imageInput: ImageInput[] = [];
+  decimalMask: string;
   // tslint:disable-next-line:no-shadowed-variable
   constructor(injector: Injector, public HttpClient: HttpClient,
     private _estimateServiceProxy: EstimateServiceProxy,
     private _dialogRef: MatDialogRef<CreateOrUpdateEstimateComponent>
-    ) {
+  ) {
     super(injector);
+    // this.decimalMask = createNumberMask({
+    //   prefix: '',
+    //   allowDecimal: true,
+    //   integerLimit: 10,
+    //   autoGroup: true,
+    //   digits: 2,
+    //   allowLeadingZeroes: true
+    // });
   }
 
   ngOnInit() {
@@ -81,31 +90,31 @@ export class CreateOrUpdateEstimateComponent  extends AppComponentBase implement
       reportProgress: true
     });
 
-    return this.HttpClient.request( config )
-    .subscribe(event => {
-      this.httpEvent = event;
-      if (event instanceof HttpResponse) {
-        this.imageInput = (event.body as any).result as ImageInput[];
-        // tslint:disable-next-line:prefer-const
+    return this.HttpClient.request(config)
+      .subscribe(event => {
+        this.httpEvent = event;
+        if (event instanceof HttpResponse) {
+          this.imageInput = (event.body as any).result as ImageInput[];
+          // tslint:disable-next-line:prefer-const
 
-        const listImage: CreateImageDto[] = [];
-        this.imageInput.forEach(element => {
-          const imageInput = new CreateImageDto();
-          imageInput.imageName = element.fileName;
-          imageInput.imageSize = element.size;
+          const listImage: CreateImageDto[] = [];
+          this.imageInput.forEach(element => {
+            const imageInput = new CreateImageDto();
+            imageInput.imageName = element.fileName;
+            imageInput.imageSize = element.size;
 
-          listImage.push(imageInput);
+            listImage.push(imageInput);
+          });
+          console.log(listImage);
+          this.estimateInput.listFileName = listImage;
+          console.log(this.estimateInput);
+          this.createEstimate();
+
+        }
+      },
+        error => {
+          alert('!upload fails' + error.toString());
         });
-        console.log(listImage);
-        this.estimateInput.listFileName = listImage;
-        console.log(this.estimateInput);
-        this.createEstimate();
-
-      }
-    },
-    error => {
-      alert('!upload fails' + error.toString());
-    });
   }
 }
 export class ImageInput {
