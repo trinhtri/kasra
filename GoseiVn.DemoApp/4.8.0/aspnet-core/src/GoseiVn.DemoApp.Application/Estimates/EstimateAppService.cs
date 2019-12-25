@@ -40,15 +40,15 @@ namespace GoseiVn.DemoApp.Estimates
             _stateRepository = stateRepository;
             _estimateExcelExporter = estimateExcelExporter;
         }
-        public async Task<int> Create(CreateEstimateDto input, List<CreateImageDto> listFileName)
+        public async Task<int> Create(CreateEstimateDto input)
         {
             var estimate = ObjectMapper.Map<Models.Estimates>(input);
             await _estimateRepository.InsertAsync(estimate);
             await CurrentUnitOfWork.SaveChangesAsync();
             //image
-            if(listFileName.Count > 0)
+            if(input.ListFileName.Count > 0)
             {
-                foreach(CreateImageDto item in listFileName)
+                foreach(var item in input.ListFileName)
                 {
                     var image = ObjectMapper.Map<Models.Images>(item);
                     if (item.ImageName != null)

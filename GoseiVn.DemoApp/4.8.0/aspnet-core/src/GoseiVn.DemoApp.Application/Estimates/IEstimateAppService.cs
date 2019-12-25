@@ -10,7 +10,7 @@ namespace GoseiVn.DemoApp.Estimates
 {
     public interface IEstimateAppService:IApplicationService
     {
-        Task<int> Create(CreateEstimateDto input, List<CreateImageDto> listFileName);
+        Task<int> Create(CreateEstimateDto input);
 
         Task<PagedResultDto<EstimateListDto>> GetAll(EstimateInput input);
 

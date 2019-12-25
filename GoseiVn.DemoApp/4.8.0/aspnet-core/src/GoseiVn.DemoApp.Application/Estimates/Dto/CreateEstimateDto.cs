@@ -27,5 +27,6 @@ namespace GoseiVn.DemoApp.Estimates.Dto
         public decimal WorkHours { get; set; }
         public decimal Rate { get; set; }
         public decimal TotalAmount { get; set; }
+        public List<CreateImageDto> ListFileName { get; set; }
     }
 }

@@ -2366,6 +2366,7 @@ export class CreateEstimateDto implements ICreateEstimateDto {
     workHours: number | undefined;
     rate: number | undefined;
     totalAmount: number | undefined;
+    listFileName: CreateImageDto[] | undefined;
     id: number | undefined;
 
     constructor(data?: ICreateEstimateDto) {
@@ -2397,6 +2398,11 @@ export class CreateEstimateDto implements ICreateEstimateDto {
             this.workHours = data["workHours"];
             this.rate = data["rate"];
             this.totalAmount = data["totalAmount"];
+            if (Array.isArray(data["listFileName"])) {
+                this.listFileName = [] as any;
+                for (let item of data["listFileName"])
+                    this.listFileName.push(CreateImageDto.fromJS(item));
+            }
             this.id = data["id"];
         }
     }
@@ -2428,6 +2434,11 @@ export class CreateEstimateDto implements ICreateEstimateDto {
         data["workHours"] = this.workHours;
         data["rate"] = this.rate;
         data["totalAmount"] = this.totalAmount;
+        if (Array.isArray(this.listFileName)) {
+            data["listFileName"] = [];
+            for (let item of this.listFileName)
+                data["listFileName"].push(item.toJSON());
+        }
         data["id"] = this.id;
         return data; 
     }
@@ -2459,6 +2470,66 @@ export interface ICreateEstimateDto {
     workHours: number | undefined;
     rate: number | undefined;
     totalAmount: number | undefined;
+    listFileName: CreateImageDto[] | undefined;
+    id: number | undefined;
+}
+
+export class CreateImageDto implements ICreateImageDto {
+    estimateID: number | undefined;
+    imageName: string | undefined;
+    imageSize: number | undefined;
+    imageUrl: string | undefined;
+    id: number | undefined;
+
+    constructor(data?: ICreateImageDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.estimateID = data["estimateID"];
+            this.imageName = data["imageName"];
+            this.imageSize = data["imageSize"];
+            this.imageUrl = data["imageUrl"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateImageDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateImageDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["estimateID"] = this.estimateID;
+        data["imageName"] = this.imageName;
+        data["imageSize"] = this.imageSize;
+        data["imageUrl"] = this.imageUrl;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): CreateImageDto {
+        const json = this.toJSON();
+        let result = new CreateImageDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ICreateImageDto {
+    estimateID: number | undefined;
+    imageName: string | undefined;
+    imageSize: number | undefined;
+    imageUrl: string | undefined;
     id: number | undefined;
 }
 
