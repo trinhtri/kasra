@@ -104,14 +104,14 @@ namespace GoseiVn.DemoApp.Estimates
             {
                 input.LastName = Regex.Replace(input.LastName.Trim(), @"\s+", " ");
             }
-
-            var estimates = _estimateRepository.GetAll().Include(x => x.States)
+            var tess = _estimateRepository.GetAll().Include(x => x.State).ToList();
+            var estimates = _estimateRepository.GetAll().Include(x => x.State)
                 .Select(x => new EstimateListDto
                 {
                     Id = x.Id,
                     LastName = x.LastName,
                     Firstname = x.Firstname,
-                    Address = x.AddressLine1 + "-" + x.AddressLine2 + "-" + x.City + "-" + x.States.StateName,
+                    Address = (x.AddressLine1 == null ? "" : x.AddressLine1 + "-") + (x.AddressLine2 == null ? "" : x.AddressLine2 + "-") + (x.City == null ? "" : x.City + "-") + (x.State.StateName == null ? "" : x.State.StateName),
                     Mobile = x.Mobile,
                     TotalAmount = x.TotalAmount
                 }).WhereIf(input.Firstname != null, x => x.Firstname.Contains(input.Firstname))
@@ -137,7 +137,7 @@ namespace GoseiVn.DemoApp.Estimates
                 input.Firstname = Regex.Replace(input.LastName.Trim(), @"\s+", " ");
             }
 
-            var estimates = _estimateRepository.GetAll().Include(x => x.States)
+            var estimates = _estimateRepository.GetAll().Include(x => x.State)
                 .Select(x => new EstimateListForExcelDto
                 {
                     Id = x.Id,
@@ -150,7 +150,7 @@ namespace GoseiVn.DemoApp.Estimates
                     Color = x.Color,
                     NoOfShingles = x.NoOfShingles,
                     ZipCode = x.ZipCode,
-                    State = x.States.StateName,
+                    State = x.State.StateName,
                     AddressLine1 = x.AddressLine1,
                     AddressLine2 = x.AddressLine2,
                     City = x.City,

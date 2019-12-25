@@ -19,7 +19,7 @@ namespace GoseiVn.DemoApp.Models
         public string City { get; set; }
 
         public int StateId { get; set; }
-        public virtual States States { get; set; }
+        public virtual States State { get; set; }
 
         public string ZipCode { get; set; }
         public decimal With { get; set; }
