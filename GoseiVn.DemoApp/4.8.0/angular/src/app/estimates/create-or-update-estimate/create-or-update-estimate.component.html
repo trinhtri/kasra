@@ -4,32 +4,24 @@
         <div class="row">
             <div class="col-md-6">
                 <mat-form-field>
-                    <input matInput name="firstName" [placeholder]="'First Name' | localize" required [(ngModel)]="estimateInput.firstname"/>
+                    <input matInput name="firstName" [placeholder]="'First Name' | localize" required [(ngModel)]="estimateInput.firstname" />
                 </mat-form-field>
             </div>
             <div class="col-md-6">
                 <mat-form-field>
-                    <input matInput name="lastName" [placeholder]="'Last Name' | localize" required [(ngModel)]="estimateInput.lastName"/>
+                    <input matInput name="lastName" [placeholder]="'Last Name' | localize" required [(ngModel)]="estimateInput.lastName" />
                 </mat-form-field>
             </div>
         </div>
         <div class="row">
             <div class="col-md-6">
                 <mat-form-field>
-                    <input matInput name="mobile" [placeholder]="'Mobile' | localize" required [(ngModel)]="estimateInput.mobile"/>
+                    <input matInput name="mobile" [placeholder]="'Mobile' | localize" required [(ngModel)]="estimateInput.mobile" />
                 </mat-form-field>
             </div>
             <div class="col-md-6">
                 <mat-form-field>
-                    <input matInput name="email" [placeholder]="'Email' | localize" [(ngModel)]="estimateInput.email"/>
-                </mat-form-field>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-12">
-                <mat-form-field>
-                    <input matInput name="addressLine1" [placeholder]="'Address line1' | localize" [(ngModel)]="estimateInput.addressLine1"/>
+                    <input matInput name="email" [placeholder]="'Email' | localize" [(ngModel)]="estimateInput.email" />
                 </mat-form-field>
             </div>
         </div>
@@ -37,7 +29,15 @@
         <div class="row">
             <div class="col-md-12">
                 <mat-form-field>
-                    <input matInput name="addressLine2" [placeholder]="'Address line2' | localize" [(ngModel)]="estimateInput.addressLine2"/>
+                    <input matInput name="addressLine1" [placeholder]="'Address line1' | localize" [(ngModel)]="estimateInput.addressLine1" />
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <mat-form-field>
+                    <input matInput name="addressLine2" [placeholder]="'Address line2' | localize" [(ngModel)]="estimateInput.addressLine2" />
                 </mat-form-field>
             </div>
         </div>
@@ -45,7 +45,7 @@
         <div class="row">
             <div class="col-md-4">
                 <mat-form-field>
-                    <input matInput name="city" [placeholder]="'City' | localize" [(ngModel)]="estimateInput.city"/>
+                    <input matInput name="city" [placeholder]="'City' | localize" [(ngModel)]="estimateInput.city" />
                 </mat-form-field>
             </div>
             <div class="col-md-4">
@@ -61,7 +61,7 @@
             </div>
             <div class="col-md-4">
                 <mat-form-field>
-                    <input matInput name="code" [placeholder]="'Code' | localize" [(ngModel)]="estimateInput.code"/>
+                    <input matInput name="code" [placeholder]="'Code' | localize" [(ngModel)]="estimateInput.code" />
                 </mat-form-field>
             </div>
         </div>
@@ -72,22 +72,23 @@
                 <div class="row">
                     <div class="col-md-2">
                         <mat-form-field>
-                            <input matInput name="width" [placeholder]="'Width' | localize" [(ngModel)]="estimateInput.width"/>
+                            <input matInput name="width" [placeholder]="'Width' | localize" [(ngModel)]="estimateInput.width" />
                         </mat-form-field>
                     </div>
                     <div class="col-md-2">
                         <mat-form-field>
-                            <input matInput name="height" [placeholder]="'Height' | localize" [(ngModel)]="estimateInput.height"/>
+                            <input matInput name="height" [placeholder]="'Height' | localize" [(ngModel)]="estimateInput.height" />
                         </mat-form-field>
                     </div>
                     <div class="col-md-2">
                         <mat-form-field>
-                            <input matInput name="length" [placeholder]="'Length' | localize" [(ngModel)]="estimateInput.length"/>
+                            <input matInput name="length" [placeholder]="'Length' | localize" [(ngModel)]="estimateInput.length" />
                         </mat-form-field>
                     </div>
                     <div class="col-md-2">
                         <mat-form-field>
-                            <input matInput name="numberOfShingles" [placeholder]="'Number of shingles' | localize" [(ngModel)]="estimateInput.noOfShingles"/>
+                            <input matInput name="numberOfShingles" [placeholder]="'Number of shingles' | localize"
+                                [(ngModel)]="estimateInput.noOfShingles" />
                         </mat-form-field>
                     </div>
                     <div class="col-md-4">
@@ -164,17 +165,20 @@
                 <div class="row">
                     <div class="col-md-4">
                         <mat-form-field>
-                            <input matInput name="workHour" [placeholder]="'Work hours' | localize" [(ngModel)]="estimateInput.workHours"/>
+                            <input type="number" matInput name="workHour" [placeholder]="'Work hours' | localize"
+                                [(ngModel)]="estimateInput.workHours" />
                         </mat-form-field>
                     </div>
                     <div class="col-md-4">
                         <mat-form-field>
-                            <input matInput name="rate" [placeholder]="'Rate (USD/ hour)' | localize" [(ngModel)]="estimateInput.rate"/>
+                            <input type="number" matInput name="rate" [placeholder]="'Rate (USD/ hour)' | localize"
+                                [(ngModel)]="estimateInput.rate" />
                         </mat-form-field>
                     </div>
                     <div class="col-md-4">
                         <mat-form-field>
-                            <input matInput name="totalAmount" [placeholder]="'Total amount ($)' | localize" [(ngModel)]="estimateInput.totalAmount"/>
+                            <input type="number" matInput name="totalAmount" [placeholder]="'Total amount ($)' | localize"
+                                [(ngModel)]="estimateInput.totalAmount" />
                         </mat-form-field>
                     </div>
                 </div>
