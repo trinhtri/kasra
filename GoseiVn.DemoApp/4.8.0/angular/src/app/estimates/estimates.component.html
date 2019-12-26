@@ -61,25 +61,37 @@
                       })
               ">
                             <td>
-                                <button class="action-button" mat-icon-button [matMenuTriggerFor]="actionsMenu">
+                                <div class="wtf1">
+                                    <button class="action-button" mat-icon-button [matMenuTriggerFor]="actionsMenu">
                                     <mat-icon>menu</mat-icon>
                                 </button>
-                                <mat-menu #actionsMenu="matMenu">
-                                    <button mat-menu-item (click)="editEstimate(estimate.id)">
+                                    <mat-menu #actionsMenu="matMenu">
+                                        <button mat-menu-item (click)="editEstimate(estimate.id)">
                                         <mat-icon>edit</mat-icon>
                                         <span>{{ "Edit" | localize }}</span>
                                     </button>
-                                    <button mat-menu-item (click)="delete(estimate)">
+                                        <button mat-menu-item (click)="delete(estimate)">
                                         <mat-icon>delete</mat-icon>
                                         <span>{{ "Delete" | localize }}</span>
                                     </button>
-                                </mat-menu>
+                                    </mat-menu>
+                                </div>
                             </td>
-                            <td>{{ estimate.firstname }}</td>
-                            <td>{{ estimate.lastName }}</td>
-                            <td>{{ estimate.mobile }}</td>
-                            <td>{{ estimate.address }}</td>
-                            <td>{{ estimate.totalAmount | number}}</td>
+                            <td>
+                                <div class="wtf">{{ estimate.firstname }}</div>
+                            </td>
+                            <td>
+                                <div class="wtf">{{ estimate.lastName }}</div>
+                            </td>
+                            <td>
+                                <div class="wtf">{{ estimate.mobile }}</div>
+                            </td>
+                            <td>
+                                <div class="wtf">{{ estimate.address }}</div>
+                            </td>
+                            <td>
+                                <div class="wtf">{{ estimate.totalAmount | number}}</div>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
