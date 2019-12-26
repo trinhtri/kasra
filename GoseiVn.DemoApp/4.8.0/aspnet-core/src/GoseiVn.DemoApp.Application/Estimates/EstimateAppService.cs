@@ -60,7 +60,7 @@ namespace GoseiVn.DemoApp.Estimates
                             System.IO.File.Move(sourceFile, destFile);
                             var filePath = Path.Combine(_appFolders.AttachmentsFolder, item.ImageName);
                             image.ImageUrl = filePath;
-                            image.ImageName = filePath;
+                            image.ImageName = item.ImageName;
                             image.ImageSize = item.ImageSize;
                             image.EstimatesId = estimatesId;
                             await _imageRepository.InsertAsync(image);
@@ -196,6 +196,13 @@ namespace GoseiVn.DemoApp.Estimates
             var image = _imageRepository.GetAll().FirstOrDefault(t => t.Id == id);
 
             return image;
+        }
+
+        public async Task DeleteImageByIdWhenEdit(int id)
+        {
+            var ImageInDB = _imageRepository.Get(id);
+            AppFileHelper.DeleteFilesInFolderIfExists(_appFolders.AttachmentsFolder, ImageInDB.ImageName);
+            await _imageRepository.DeleteAsync(id);
         }
     }
 }

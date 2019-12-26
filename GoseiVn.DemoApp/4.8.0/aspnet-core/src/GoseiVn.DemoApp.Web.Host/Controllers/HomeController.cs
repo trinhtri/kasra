@@ -69,5 +69,19 @@ namespace GoseiVn.DemoApp.Web.Host.Controllers
 
             return File(fileBytes, MimeTypeMap.GetMimeType(Path.GetExtension(imageObject.ImageUrl)), Path.GetFileName(imageObject.ImageUrl));
         }
+
+        public ActionResult Delete(int id)
+        {
+            Images imageObject = _estimateAppService.GetImageById(id);
+
+            if (imageObject == null)
+            {
+                throw new UserFriendlyException(L("ImageNotFound"));
+            }
+
+            System.IO.File.Delete(imageObject.ImageUrl);
+
+            return null;
+        }
     }
 }

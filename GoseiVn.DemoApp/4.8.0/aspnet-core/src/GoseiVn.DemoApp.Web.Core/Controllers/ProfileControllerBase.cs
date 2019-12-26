@@ -58,7 +58,8 @@ namespace GoseiVn.DemoApp.Controllers
 
                 //Save new picture
                 var fileInfo = new FileInfo(profilePictureFile.FileName);
-                var tempFileName = "image_" + Guid.NewGuid() + fileInfo.Extension;
+                //var tempFileName = "image_" + Guid.NewGuid() + fileInfo.Extension;
+                var tempFileName = profilePictureFile.FileName;
                 var tempFilePath = Path.Combine(_appFolders.TempFileDownloadFolder, tempFileName);
                 System.IO.File.WriteAllBytes(tempFilePath, fileBytes);
 

@@ -28,5 +28,7 @@ namespace GoseiVn.DemoApp.Estimates
         Images GetImageById(int id);
 
         Task Update(CreateEstimateDto input);
+
+        Task DeleteImageByIdWhenEdit(int id);
     }
 }

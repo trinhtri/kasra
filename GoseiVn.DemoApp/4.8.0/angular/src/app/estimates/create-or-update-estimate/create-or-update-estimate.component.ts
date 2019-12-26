@@ -64,11 +64,10 @@ export class CreateOrUpdateEstimateComponent extends AppComponentBase implements
             this.images.push({
               src: (this.viewImageUrl + this.estimateInput.listFileName[i].id.toString()),
               fileName: this.estimateInput.listFileName[i].imageName,
-              size: this.estimateInput.listFileName[i].imageSize
+              size: this.estimateInput.listFileName[i].imageSize,
+              id: this.estimateInput.listFileName[i].id
             });
           }
-          console.log('danh sách ảnh');
-          console.log(this.images);
         }
       });
     }
@@ -103,6 +102,8 @@ export class CreateOrUpdateEstimateComponent extends AppComponentBase implements
     });
   }
   save() {
+    console.log('danh sách ảnh khi nhấn save - this.files');
+    console.log(this.files);
     if (this._id) {
       this._estimateServiceProxy.update(this.estimateInput).subscribe(result => {
         this.notify.info(this.l('SavedSuccessfully'));
@@ -166,6 +167,21 @@ export class CreateOrUpdateEstimateComponent extends AppComponentBase implements
     const workHours = +this.estimateInput.workHours.toString().split(',').join('').toString();
     const rate = +this.estimateInput.rate.toString().split(',').join('').toString();
     this.estimateInput.totalAmount = workHours * rate;
+  }
+  deleteWhenEdit(i: number, id: number) {
+    abp.message.confirm(
+      this.l('DeleteImageWarnningMessage'),
+      (result: boolean) => {
+        if (result) {
+          this._estimateServiceProxy.deleteImageByIdWhenEdit(id).subscribe(result1 => {
+            this.notify.info(this.l('DeleteSuccessfully'));
+            this.images.splice(i, 1);
+            console.log('xóa ảnh khi edit');
+            console.log(this.images[i]);
+          });
+        }
+      }
+    );
   }
 }
 export class ImageInput {
