@@ -2,16 +2,14 @@ import { Component, OnInit, Injector, Optional, Inject } from '@angular/core';
 import { AppComponentBase } from '@shared/app-component-base';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import {
-  HttpClient,
-  HttpClientModule,
-  HttpRequest,
-  HttpResponse,
-  HttpEvent
+    HttpClient,
+    HttpRequest,
+    HttpResponse,
+    HttpEvent
 } from '@angular/common/http';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { AppConsts } from '@shared/AppConsts';
 import { EstimateServiceProxy, CreateEstimateDto, CreateImageDto, StateDto } from '@shared/service-proxies/service-proxies';
-import { DecimalPipe } from '@angular/common';
 import createNumberMask from 'text-mask-addons/dist/createNumberMask';
 import { Lightbox, IAlbum } from 'ngx-lightbox';
 @Component({
@@ -19,7 +17,8 @@ import { Lightbox, IAlbum } from 'ngx-lightbox';
   templateUrl: './create-or-update-estimate.component.html',
   styleUrls: ['./create-or-update-estimate.component.css']
 })
-export class CreateOrUpdateEstimateComponent extends AppComponentBase implements OnInit {
+export class CreateOrUpdateEstimateComponent extends AppComponentBase
+  implements OnInit {
   saving = false;
   color = '#5a24ea';
   accept = '*';
@@ -48,11 +47,13 @@ export class CreateOrUpdateEstimateComponent extends AppComponentBase implements
   private _albums: IAlbum[] = [];
 
   // tslint:disable-next-line:no-shadowed-variable
-  constructor(injector: Injector, public HttpClient: HttpClient,
+  constructor(
+    injector: Injector,
+    public httpClient: HttpClient,
     private _estimateServiceProxy: EstimateServiceProxy,
     private _dialogRef: MatDialogRef<CreateOrUpdateEstimateComponent>,
     private _lightbox: Lightbox,
-    @Optional() @Inject(MAT_DIALOG_DATA) private _id: number
+    @Optional() @Inject(MAT_DIALOG_DATA) public _id: number
   ) {
     super(injector);
   }
@@ -99,11 +100,15 @@ export class CreateOrUpdateEstimateComponent extends AppComponentBase implements
     if (this._id) {
       this._estimateServiceProxy.getDataForEdit(this._id).subscribe(result => {
         this.estimateInput = result;
-        this.color = this.estimateInput.color ? this.estimateInput.color : '#5a24ea';
+        this.color = this.estimateInput.color
+          ? this.estimateInput.color
+          : '#5a24ea';
         if (this.estimateInput.listFileName.length > 0) {
           for (let i = 0; i < this.estimateInput.listFileName.length; i++) {
             this.images.push({
-              src: (this.viewImageUrl + this.estimateInput.listFileName[i].id.toString()),
+              src:
+                this.viewImageUrl +
+                this.estimateInput.listFileName[i].id.toString(),
               fileName: this.estimateInput.listFileName[i].imageName,
               size: this.estimateInput.listFileName[i].imageSize,
               id: this.estimateInput.listFileName[i].id
@@ -125,21 +130,23 @@ export class CreateOrUpdateEstimateComponent extends AppComponentBase implements
     console.log('danh sách ảnh khi nhấn save - this.files');
     console.log(this.files);
     if (this._id) {
-      this._estimateServiceProxy.update(this.estimateInput).subscribe(result => {
-        this.notify.info(this.l('SavedSuccessfully'));
-        this.close(true);
-      });
+      this._estimateServiceProxy
+        .update(this.estimateInput)
+        .subscribe(result => {
+          this.notify.info(this.l('SavedSuccessfully'));
+          this.close(true);
+        });
     } else {
       this.uploadFiles(this.files);
     }
   }
-
 
   getAllState() {
     this._estimateServiceProxy.getAllState().subscribe(result => {
       this.states = result;
     });
   }
+
   uploadFiles(files: File[]): Subscription {
     const formData: FormData = new FormData();
     for (let i = 0; i < files.length; i++) {
@@ -150,8 +157,8 @@ export class CreateOrUpdateEstimateComponent extends AppComponentBase implements
       reportProgress: true
     });
 
-    return this.HttpClient.request(config)
-      .subscribe(event => {
+    return this.httpClient.request(config).subscribe(
+      event => {
         this.httpEvent = event;
         if (event instanceof HttpResponse) {
           this.imageInput = (event.body as any).result as ImageInput[];
@@ -163,37 +170,41 @@ export class CreateOrUpdateEstimateComponent extends AppComponentBase implements
             imageDto.imageName = element.fileName;
             imageDto.imageUrl = element.fileUrl;
             imageDto.imageSize = element.size;
-            imageDto.estimateID = (this._id == null ? 0 : this._id);
+            imageDto.estimateID = this._id == null ? 0 : this._id;
 
             listImage.push(imageDto);
           });
           this.estimateInput.listFileName = listImage;
           if (this._id) {
-            this._estimateServiceProxy.createImageWhenEditEstimate(listImage).subscribe(result => {
-              this._estimateServiceProxy.getImageAfterUploadWhenEditEstimate(this._id).subscribe(res => {
-                if (res.length > 0) {
-                  this.images = [];
-                  for (let i = 0; i < res.length; i++) {
-                    this.images.push({
-                      src: (this.viewImageUrl + res[i].id.toString()),
-                      fileName: res[i].imageName,
-                      size: res[i].imageSize,
-                      id: res[i].id
-                    });
-                  }
-                }
+            this._estimateServiceProxy
+              .createImageWhenEditEstimate(listImage)
+              .subscribe(result => {
+                this._estimateServiceProxy
+                  .getImageAfterUploadWhenEditEstimate(this._id)
+                  .subscribe(res => {
+                    if (res.length > 0) {
+                      this.images = [];
+                      for (let i = 0; i < res.length; i++) {
+                        this.images.push({
+                          src: this.viewImageUrl + res[i].id.toString(),
+                          fileName: res[i].imageName,
+                          size: res[i].imageSize,
+                          id: res[i].id
+                        });
+                      }
+                    }
+                  });
+                this.notify.success(this.l('UploadSuccessfully'));
               });
-              this.notify.success(this.l('UploadSuccessfully'));
-            });
           } else {
             this.createEstimate();
           }
-
         }
       },
-        error => {
-          alert('!upload fails' + error.toString());
-        });
+      error => {
+        alert('!upload fails' + error.toString());
+      }
+    );
   }
   keyPress(event: any) {
     const pattern = /[0-9]/;
@@ -205,8 +216,16 @@ export class CreateOrUpdateEstimateComponent extends AppComponentBase implements
   }
 
   Calculate() {
-    const workHours = +this.estimateInput.workHours.toString().split(',').join('').toString();
-    const rate = +this.estimateInput.rate.toString().split(',').join('').toString();
+    const workHours = +this.estimateInput.workHours
+      .toString()
+      .split(',')
+      .join('')
+      .toString();
+    const rate = +this.estimateInput.rate
+      .toString()
+      .split(',')
+      .join('')
+      .toString();
     this.estimateInput.totalAmount = workHours * rate;
   }
   deleteWhenEdit(i: number, id: number) {
@@ -214,13 +233,15 @@ export class CreateOrUpdateEstimateComponent extends AppComponentBase implements
       this.l('DeleteImageWarnningMessage'),
       (result: boolean) => {
         if (result) {
-          this._estimateServiceProxy.deleteImageByIdWhenEdit(id).subscribe(result1 => {
-            this.notify.info(this.l('DeleteSuccessfully'));
-            this.images.splice(i, 1);
-            console.log('xóa ảnh khi edit');
-            console.log(this.images);
-            this.initAlbum();
-          });
+          this._estimateServiceProxy
+            .deleteImageByIdWhenEdit(id)
+            .subscribe(result1 => {
+              this.notify.info(this.l('DeleteSuccessfully'));
+              this.images.splice(i, 1);
+              console.log('xóa ảnh khi edit');
+              console.log(this.images);
+              this.initAlbum();
+            });
         }
       }
     );
@@ -240,7 +261,6 @@ export class CreateOrUpdateEstimateComponent extends AppComponentBase implements
 
       this._albums.push(album);
     });
-
   }
 
   openLightBox(index: number): void {
@@ -255,7 +275,7 @@ export class CreateOrUpdateEstimateComponent extends AppComponentBase implements
   }
 }
 export class ImageInput {
-  fileName: string;
-  fileUrl: string;
-  size: number;
+    fileName: string;
+    fileUrl: string;
+    size: number;
 }
