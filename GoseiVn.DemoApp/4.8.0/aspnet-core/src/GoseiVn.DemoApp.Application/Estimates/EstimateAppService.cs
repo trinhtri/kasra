@@ -54,11 +54,11 @@ namespace GoseiVn.DemoApp.Estimates
                         if (item.ImageName != null)
                         {
                             //Delete old document file
-                            AppFileHelper.DeleteFilesInFolderIfExists(_appFolders.AttachmentsFolder, item.ImageName);
-                            var sourceFile = Path.Combine(_appFolders.TempFileDownloadFolder, item.ImageName);
-                            var destFile = Path.Combine(_appFolders.AttachmentsFolder, item.ImageName);
+                            AppFileHelper.DeleteFilesInFolderIfExists(_appFolders.AttachmentsFolder, item.ImageUrl);
+                            var sourceFile = Path.Combine(_appFolders.TempFileDownloadFolder, item.ImageUrl);
+                            var destFile = Path.Combine(_appFolders.AttachmentsFolder, item.ImageUrl);
                             System.IO.File.Move(sourceFile, destFile);
-                            var filePath = Path.Combine(_appFolders.AttachmentsFolder, item.ImageName);
+                            var filePath = Path.Combine(_appFolders.AttachmentsFolder, item.ImageUrl);
                             image.ImageUrl = filePath;
                             image.ImageName = item.ImageName;
                             image.ImageSize = item.ImageSize;
