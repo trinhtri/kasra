@@ -133,12 +133,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let item of files;let i=index">
+                            <tr *ngFor="let item of images; let i=index">
                                 <td>
-                                    <div *ngIf="['image/gif','image/png','image/jpeg'].indexOf(item.type)>=0">
+                                    <!-- <div *ngIf="['image/gif','image/png','image/jpeg'].indexOf(item.type)>=0">
                                         <div class="previewIcon" [ngfBackground]="item"></div>
-                                    </div>
-                                    <!-- <img src="{{item.src}}" style="width: 100px; height:100px;" alt="{{item.fileName}}"> -->
+                                    </div> -->
+                                    <img src="{{item.src}}" style="width: 100px; height:100px;" alt="{{item.fileName}}">
                                 </td>
                                 <td><strong>{{ item.name }}</strong></td>
                                 <!-- <td nowrap>

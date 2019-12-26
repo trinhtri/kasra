@@ -127,11 +127,12 @@ export class CreateOrUpdateEstimateComponent extends AppComponentBase implements
 
           const listImage: CreateImageDto[] = [];
           this.imageInput.forEach(element => {
-            const imageInput = new CreateImageDto();
-            imageInput.imageName = element.fileName;
-            imageInput.imageSize = element.size;
+            const imageDto = new CreateImageDto();
+            imageDto.imageName = element.fileName;
+            imageDto.imageUrl = element.fileUrl;
+            imageDto.imageSize = element.size;
 
-            listImage.push(imageInput);
+            listImage.push(imageDto);
           });
           console.log(listImage);
           this.estimateInput.listFileName = listImage;
@@ -161,5 +162,6 @@ export class CreateOrUpdateEstimateComponent extends AppComponentBase implements
 }
 export class ImageInput {
   fileName: string;
+  fileUrl: string;
   size: number;
 }
