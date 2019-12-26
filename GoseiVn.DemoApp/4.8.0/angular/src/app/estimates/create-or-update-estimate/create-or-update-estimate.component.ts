@@ -49,7 +49,7 @@ export class CreateOrUpdateEstimateComponent extends AppComponentBase implements
   constructor(injector: Injector, public HttpClient: HttpClient,
     private _estimateServiceProxy: EstimateServiceProxy,
     private _dialogRef: MatDialogRef<CreateOrUpdateEstimateComponent>,
-    @Optional() @Inject(MAT_DIALOG_DATA) private _id: number
+    @Optional() @Inject(MAT_DIALOG_DATA) public _id: number
   ) {
     super(injector);
   }
