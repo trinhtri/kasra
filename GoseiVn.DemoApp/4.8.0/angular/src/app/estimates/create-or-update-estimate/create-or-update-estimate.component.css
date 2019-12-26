@@ -25,3 +25,9 @@ div > textarea {
     background-size:cover;
     background-repeat:no-repeat;
 }
+
+::ng-deep .lightbox.animation {
+    position: absolute;
+    top: 50% !important;
+    transform: translateY(-50%);
+}

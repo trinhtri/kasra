@@ -195,6 +195,8 @@ export class CreateOrUpdateEstimateComponent extends AppComponentBase
                     }
                   });
                 this.notify.success(this.l('UploadSuccessfully'));
+                this.initAlbum();
+
               });
           } else {
             this.createEstimate();
