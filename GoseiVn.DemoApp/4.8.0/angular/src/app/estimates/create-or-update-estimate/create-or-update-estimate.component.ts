@@ -63,13 +63,15 @@ export class CreateOrUpdateEstimateComponent extends AppComponentBase implements
           for (let i = 0; i < this.estimateInput.listFileName.length; i++) {
             this.images.push({
               src: (this.viewImageUrl + this.estimateInput.listFileName[i].id.toString()),
-              fileName: this.estimateInput.listFileName[i].imageName
+              fileName: this.estimateInput.listFileName[i].imageName,
+              size: this.estimateInput.listFileName[i].imageSize
             });
           }
+          console.log('danh sách ảnh');
+          console.log(this.images);
         }
       });
     }
-    console.log(this._id);
     this.decimalMask = createNumberMask({
       prefix: '',
       allowDecimal: true,
@@ -142,9 +144,7 @@ export class CreateOrUpdateEstimateComponent extends AppComponentBase implements
 
             listImage.push(imageInput);
           });
-          console.log(listImage);
           this.estimateInput.listFileName = listImage;
-          console.log(this.estimateInput);
           this.createEstimate();
 
         }

@@ -132,7 +132,24 @@
                                 <th>Actions</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody *ngIf="_id">
+                            <tr *ngFor="let item of images;let i=index">
+                                <td>
+
+                                    <img src="{{item.src}}" style="width: 100px; height:100px; border-radius: 5%;" alt="{{item.fileName}}">
+                                </td>
+                                <td><strong>{{ item.fileName }}</strong></td>
+                                <td nowrap>
+                                    {{ item.size/1024 | number:'.2' }} MB
+                                </td>
+                                <td nowrap>
+                                    <button type="button" class="btn btn-danger btn-xs" (click)="files.splice(i,1)">
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tbody *ngIf="!_id">
                             <tr *ngFor="let item of files;let i=index">
                                 <td>
                                     <div *ngIf="['image/gif','image/png','image/jpeg'].indexOf(item.type)>=0">
