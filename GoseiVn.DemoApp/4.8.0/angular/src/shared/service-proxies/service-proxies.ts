@@ -268,6 +268,58 @@ export class EstimateServiceProxy {
     }
 
     /**
+     * @param input (optional) 
+     * @return Success
+     */
+    update(input: CreateEstimateDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Estimate/Update";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdate(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdate(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
      * @param id (optional) 
      * @return Success
      */
@@ -656,6 +708,60 @@ export class EstimateServiceProxy {
             }));
         }
         return _observableOf<CreateEstimateDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getImageById(id: number | null | undefined): Observable<Images> {
+        let url_ = this.baseUrl + "/api/services/app/Estimate/GetImageById?";
+        if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetImageById(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetImageById(<any>response_);
+                } catch (e) {
+                    return <Observable<Images>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<Images>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetImageById(response: HttpResponseBase): Observable<Images> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = Images.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<Images>(<any>null);
     }
 }
 
@@ -2852,6 +2958,331 @@ export class StateDto implements IStateDto {
 export interface IStateDto {
     stateId: number | undefined;
     stateName: string | undefined;
+}
+
+export class Images implements IImages {
+    imageName: string | undefined;
+    imageSize: number | undefined;
+    imageUrl: string | undefined;
+    estimatesId: number | undefined;
+    estimates: Estimates | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: number | undefined;
+
+    constructor(data?: IImages) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.imageName = data["imageName"];
+            this.imageSize = data["imageSize"];
+            this.imageUrl = data["imageUrl"];
+            this.estimatesId = data["estimatesId"];
+            this.estimates = data["estimates"] ? Estimates.fromJS(data["estimates"]) : <any>undefined;
+            this.isDeleted = data["isDeleted"];
+            this.deleterUserId = data["deleterUserId"];
+            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = data["creatorUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): Images {
+        data = typeof data === 'object' ? data : {};
+        let result = new Images();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["imageName"] = this.imageName;
+        data["imageSize"] = this.imageSize;
+        data["imageUrl"] = this.imageUrl;
+        data["estimatesId"] = this.estimatesId;
+        data["estimates"] = this.estimates ? this.estimates.toJSON() : <any>undefined;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): Images {
+        const json = this.toJSON();
+        let result = new Images();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IImages {
+    imageName: string | undefined;
+    imageSize: number | undefined;
+    imageUrl: string | undefined;
+    estimatesId: number | undefined;
+    estimates: Estimates | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: number | undefined;
+}
+
+export class Estimates implements IEstimates {
+    firstname: string | undefined;
+    lastName: string | undefined;
+    mobile: string | undefined;
+    email: string | undefined;
+    addressLine1: string | undefined;
+    addressLine2: string | undefined;
+    city: string | undefined;
+    stateId: number | undefined;
+    state: States | undefined;
+    zipCode: string | undefined;
+    with: number | undefined;
+    height: number | undefined;
+    length: number | undefined;
+    noOfShingles: number | undefined;
+    color: string | undefined;
+    importantNote: string | undefined;
+    workHours: number | undefined;
+    rate: number | undefined;
+    totalAmount: number | undefined;
+    listImg: Images[] | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: number | undefined;
+
+    constructor(data?: IEstimates) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.firstname = data["firstname"];
+            this.lastName = data["lastName"];
+            this.mobile = data["mobile"];
+            this.email = data["email"];
+            this.addressLine1 = data["addressLine1"];
+            this.addressLine2 = data["addressLine2"];
+            this.city = data["city"];
+            this.stateId = data["stateId"];
+            this.state = data["state"] ? States.fromJS(data["state"]) : <any>undefined;
+            this.zipCode = data["zipCode"];
+            this.with = data["with"];
+            this.height = data["height"];
+            this.length = data["length"];
+            this.noOfShingles = data["noOfShingles"];
+            this.color = data["color"];
+            this.importantNote = data["importantNote"];
+            this.workHours = data["workHours"];
+            this.rate = data["rate"];
+            this.totalAmount = data["totalAmount"];
+            if (Array.isArray(data["listImg"])) {
+                this.listImg = [] as any;
+                for (let item of data["listImg"])
+                    this.listImg.push(Images.fromJS(item));
+            }
+            this.isDeleted = data["isDeleted"];
+            this.deleterUserId = data["deleterUserId"];
+            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = data["creatorUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): Estimates {
+        data = typeof data === 'object' ? data : {};
+        let result = new Estimates();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["firstname"] = this.firstname;
+        data["lastName"] = this.lastName;
+        data["mobile"] = this.mobile;
+        data["email"] = this.email;
+        data["addressLine1"] = this.addressLine1;
+        data["addressLine2"] = this.addressLine2;
+        data["city"] = this.city;
+        data["stateId"] = this.stateId;
+        data["state"] = this.state ? this.state.toJSON() : <any>undefined;
+        data["zipCode"] = this.zipCode;
+        data["with"] = this.with;
+        data["height"] = this.height;
+        data["length"] = this.length;
+        data["noOfShingles"] = this.noOfShingles;
+        data["color"] = this.color;
+        data["importantNote"] = this.importantNote;
+        data["workHours"] = this.workHours;
+        data["rate"] = this.rate;
+        data["totalAmount"] = this.totalAmount;
+        if (Array.isArray(this.listImg)) {
+            data["listImg"] = [];
+            for (let item of this.listImg)
+                data["listImg"].push(item.toJSON());
+        }
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): Estimates {
+        const json = this.toJSON();
+        let result = new Estimates();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IEstimates {
+    firstname: string | undefined;
+    lastName: string | undefined;
+    mobile: string | undefined;
+    email: string | undefined;
+    addressLine1: string | undefined;
+    addressLine2: string | undefined;
+    city: string | undefined;
+    stateId: number | undefined;
+    state: States | undefined;
+    zipCode: string | undefined;
+    with: number | undefined;
+    height: number | undefined;
+    length: number | undefined;
+    noOfShingles: number | undefined;
+    color: string | undefined;
+    importantNote: string | undefined;
+    workHours: number | undefined;
+    rate: number | undefined;
+    totalAmount: number | undefined;
+    listImg: Images[] | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: number | undefined;
+}
+
+export class States implements IStates {
+    stateName: string | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: number | undefined;
+
+    constructor(data?: IStates) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.stateName = data["stateName"];
+            this.isDeleted = data["isDeleted"];
+            this.deleterUserId = data["deleterUserId"];
+            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = data["creatorUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): States {
+        data = typeof data === 'object' ? data : {};
+        let result = new States();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["stateName"] = this.stateName;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): States {
+        const json = this.toJSON();
+        let result = new States();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IStates {
+    stateName: string | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: number | undefined;
 }
 
 export class EstimateListForExcelDto implements IEstimateListForExcelDto {
