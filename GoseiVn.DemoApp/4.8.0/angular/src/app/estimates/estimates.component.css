@@ -48,6 +48,35 @@ div>input {
         position: static;
         padding-top: 65px;
     }
+    .mt-50 {
+        margin-top: -50px !important;
+    }
+    .mt-20 {
+        position: static;
+        margin-top: 20px !important;
+    }
+    /* .btn_add {
+        right: 160px;
+        top: -36px;
+    } */
+}
+
+@media only screen and (max-width: 375px) and (min-width: 320px) {
+    .fixbutton {
+        position: static;
+        padding-top: 65px;
+    }
+    .mt-50 {
+        margin-top: -50px !important;
+    }
+    .mt-20 {
+        position: static;
+        margin-top: 20px !important;
+    }
+    .btn_add {
+        right: 160px;
+        top: -36px;
+    }
 }
 
 .header {
