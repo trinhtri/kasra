@@ -66,8 +66,9 @@ namespace GoseiVn.DemoApp.Controllers
                 {
                     var item = new UploadProfilePictureOutput
                     {
-                        FileName = tempFileName,
-                        Size = profilePictureFile.Length/1024
+                        FileName = profilePictureFile.FileName,
+                        FileUrl = tempFileName,
+                        Size = (decimal)profilePictureFile.Length/(1024 * 1024)
                     };
                     result.Add(item);
                 }
