@@ -75,6 +75,13 @@ namespace GoseiVn.DemoApp.Estimates
             }
         }
 
+        public async Task Update(CreateEstimateDto input)
+        {
+            var estimateInDB = await _estimateRepository.GetAsync(input.Id);
+            ObjectMapper.Map(input, estimateInDB);
+            await _estimateRepository.UpdateAsync(estimateInDB);
+        }
+
         public async Task Delete(int id)
         {
             await _estimateRepository.DeleteAsync(id);
