@@ -192,10 +192,11 @@ export class CreateOrUpdateEstimateComponent extends AppComponentBase
                           id: res[i].id
                         });
                       }
+                      this.initAlbum();
                     }
                   });
-                this.notify.success(this.l('UploadSuccessfully'));
-                this.initAlbum();
+                 this.notify.success(this.l('UploadSuccessfully'));
+                // this.initAlbum();
 
               });
           } else {
