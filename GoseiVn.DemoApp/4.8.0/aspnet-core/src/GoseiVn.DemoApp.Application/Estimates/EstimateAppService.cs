@@ -71,8 +71,47 @@ namespace GoseiVn.DemoApp.Estimates
             }
             catch (Exception e)
             {
-                throw;
+                throw e;
             }
+        }
+
+        public async Task CreateImageWhenEditEstimate(List<CreateImageDto> ListImage)
+        {
+            try
+            {
+                if (ListImage.Count > 0)
+                {
+                    foreach (var item in ListImage)
+                    {
+                        var image = ObjectMapper.Map<Models.Images>(item);
+                        if (item.ImageName != null)
+                        {
+                            //Delete old document file
+                            AppFileHelper.DeleteFilesInFolderIfExists(_appFolders.AttachmentsFolder, item.ImageUrl);
+                            var sourceFile = Path.Combine(_appFolders.TempFileDownloadFolder, item.ImageUrl);
+                            var destFile = Path.Combine(_appFolders.AttachmentsFolder, item.ImageUrl);
+                            System.IO.File.Move(sourceFile, destFile);
+                            var filePath = Path.Combine(_appFolders.AttachmentsFolder, item.ImageUrl);
+                            image.ImageUrl = filePath;
+                            image.ImageName = item.ImageName;
+                            image.ImageSize = item.ImageSize;
+                            image.EstimatesId = item.EstimateID;
+                            await _imageRepository.InsertAsync(image);
+                        }
+                    }
+                    await CurrentUnitOfWork.SaveChangesAsync();
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public async Task<List<CreateImageDto>> GetImageAfterUploadWhenEditEstimate(int estimateId)
+        {
+            var query = await _imageRepository.GetAll().Where(x => x.EstimatesId == estimateId).ToListAsync();
+            return ObjectMapper.Map<List<CreateImageDto>>(query);
         }
 
         public async Task Update(CreateEstimateDto input)

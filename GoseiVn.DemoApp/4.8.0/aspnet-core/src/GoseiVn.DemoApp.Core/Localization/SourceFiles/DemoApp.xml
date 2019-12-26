@@ -97,5 +97,6 @@
     <text name="Filter">Filter</text>
     <text name="DeleteImageWarnningMessage">Image on server will be deleted!</text>
     <text name="DeleteSuccessfully">Delete successfully!</text>
+    <text name="UploadSuccessfully">Upload successfully!</text>
   </texts>
 </localizationDictionary>

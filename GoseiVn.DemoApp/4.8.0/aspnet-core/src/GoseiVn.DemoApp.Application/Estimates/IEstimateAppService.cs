@@ -30,5 +30,9 @@ namespace GoseiVn.DemoApp.Estimates
         Task Update(CreateEstimateDto input);
 
         Task DeleteImageByIdWhenEdit(int id);
+
+        Task CreateImageWhenEditEstimate(List<CreateImageDto> ListImage);
+
+        Task<List<CreateImageDto>> GetImageAfterUploadWhenEditEstimate(int estimateId);
     }
 }

@@ -95,6 +95,16 @@ export class CreateOrUpdateEstimateComponent extends AppComponentBase implements
   getDate() {
     return new Date();
   }
+
+  fileChange() {
+    this.lastFileAt = new Date();
+    console.log('file change');
+    console.log(this.files);
+    console.log('this._id: ' + this._id);
+    if (this._id) {
+      this.uploadFiles(this.files);
+    }
+  }
   createEstimate() {
     this._estimateServiceProxy.create(this.estimateInput).subscribe(result => {
       this.notify.info(this.l('SavedSuccessfully'));
@@ -143,11 +153,31 @@ export class CreateOrUpdateEstimateComponent extends AppComponentBase implements
             imageDto.imageName = element.fileName;
             imageDto.imageUrl = element.fileUrl;
             imageDto.imageSize = element.size;
+            imageDto.estimateID = (this._id == null ? 0 : this._id);
 
             listImage.push(imageDto);
           });
           this.estimateInput.listFileName = listImage;
-          this.createEstimate();
+          if (this._id) {
+            this._estimateServiceProxy.createImageWhenEditEstimate(listImage).subscribe(result => {
+              this._estimateServiceProxy.getImageAfterUploadWhenEditEstimate(this._id).subscribe(res => {
+                if (res.length > 0) {
+                  this.images = [];
+                  for (let i = 0; i < res.length; i++) {
+                    this.images.push({
+                      src: (this.viewImageUrl + res[i].id.toString()),
+                      fileName: res[i].imageName,
+                      size: res[i].imageSize,
+                      id: res[i].id
+                    });
+                  }
+                }
+              });
+              this.notify.success(this.l('UploadSuccessfully'));
+            });
+          } else {
+            this.createEstimate();
+          }
 
         }
       },
