@@ -39,6 +39,7 @@
               "node_modules/famfamfam-flags/dist/sprite/famfamfam-flags.css",
               "node_modules/toastr/build/toastr.css",
               "node_modules/node-waves/dist/waves.css",
+              "node_modules/ngx-lightbox/lightbox.css",
               "src/bsb-theme/css/materialize.css",
               "src/bsb-theme/css/style.css",
               "src/bsb-theme/css/themes/all-themes.css",

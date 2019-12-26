@@ -46,6 +46,8 @@ import { ngfModule, ngf } from 'angular-file';
 import { TextMaskModule } from 'angular2-text-mask';
 
 import { FileDownloadService } from '@shared/Utils/file-download.service';
+import { LightboxModule } from 'ngx-lightbox';
+
 
 @NgModule({
   declarations: [
@@ -90,7 +92,8 @@ import { FileDownloadService } from '@shared/Utils/file-download.service';
     ColorPickerModule,
     NgxFileDropModule,
     ngfModule,
-    TextMaskModule
+    TextMaskModule,
+    LightboxModule
   ],
   providers: [EstimateServiceProxy, FileDownloadService],
   entryComponents: [

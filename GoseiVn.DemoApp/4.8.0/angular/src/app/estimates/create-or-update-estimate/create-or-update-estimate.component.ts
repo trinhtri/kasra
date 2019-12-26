@@ -13,6 +13,7 @@ import { AppConsts } from '@shared/AppConsts';
 import { EstimateServiceProxy, CreateEstimateDto, CreateImageDto, StateDto } from '@shared/service-proxies/service-proxies';
 import { DecimalPipe } from '@angular/common';
 import createNumberMask from 'text-mask-addons/dist/createNumberMask';
+import { Lightbox, IAlbum } from 'ngx-lightbox';
 @Component({
   selector: 'app-create-or-update-estimate',
   templateUrl: './create-or-update-estimate.component.html',
@@ -44,33 +45,21 @@ export class CreateOrUpdateEstimateComponent extends AppComponentBase implements
   decimalMask: string;
   states: StateDto[] = [];
   images: any[] = [];
+  private _albums: IAlbum[] = [];
 
   // tslint:disable-next-line:no-shadowed-variable
   constructor(injector: Injector, public HttpClient: HttpClient,
     private _estimateServiceProxy: EstimateServiceProxy,
     private _dialogRef: MatDialogRef<CreateOrUpdateEstimateComponent>,
+    private _lightbox: Lightbox,
     @Optional() @Inject(MAT_DIALOG_DATA) private _id: number
   ) {
     super(injector);
   }
 
   ngOnInit() {
-    if (this._id) {
-      this._estimateServiceProxy.getDataForEdit(this._id).subscribe(result => {
-        this.estimateInput = result;
-        this.color = this.estimateInput.color ? this.estimateInput.color : '#5a24ea';
-        if (this.estimateInput.listFileName.length > 0) {
-          for (let i = 0; i < this.estimateInput.listFileName.length; i++) {
-            this.images.push({
-              src: (this.viewImageUrl + this.estimateInput.listFileName[i].id.toString()),
-              fileName: this.estimateInput.listFileName[i].imageName,
-              size: this.estimateInput.listFileName[i].imageSize,
-              id: this.estimateInput.listFileName[i].id
-            });
-          }
-        }
-      });
-    }
+    this.editEstimate();
+
     this.decimalMask = createNumberMask({
       prefix: '',
       allowDecimal: true,
@@ -105,6 +94,27 @@ export class CreateOrUpdateEstimateComponent extends AppComponentBase implements
       this.uploadFiles(this.files);
     }
   }
+
+  editEstimate() {
+    if (this._id) {
+      this._estimateServiceProxy.getDataForEdit(this._id).subscribe(result => {
+        this.estimateInput = result;
+        this.color = this.estimateInput.color ? this.estimateInput.color : '#5a24ea';
+        if (this.estimateInput.listFileName.length > 0) {
+          for (let i = 0; i < this.estimateInput.listFileName.length; i++) {
+            this.images.push({
+              src: (this.viewImageUrl + this.estimateInput.listFileName[i].id.toString()),
+              fileName: this.estimateInput.listFileName[i].imageName,
+              size: this.estimateInput.listFileName[i].imageSize,
+              id: this.estimateInput.listFileName[i].id
+            });
+          }
+          this.initAlbum();
+        }
+      });
+    }
+  }
+
   createEstimate() {
     this._estimateServiceProxy.create(this.estimateInput).subscribe(result => {
       this.notify.info(this.l('SavedSuccessfully'));
@@ -208,11 +218,40 @@ export class CreateOrUpdateEstimateComponent extends AppComponentBase implements
             this.notify.info(this.l('DeleteSuccessfully'));
             this.images.splice(i, 1);
             console.log('xóa ảnh khi edit');
-            console.log(this.images[i]);
+            console.log(this.images);
+            this.initAlbum();
           });
         }
       }
     );
+  }
+
+  initAlbum() {
+    this._albums = [];
+    this.images.forEach(image => {
+      const src = AppConsts.remoteServiceBaseUrl + '/Home/Image/' + image.id;
+      const caption = image.fileName;
+      const thumb = image.fileName + '-thumb.jpg';
+      const album = {
+        src: src,
+        caption: caption,
+        thumb: thumb
+      };
+
+      this._albums.push(album);
+    });
+
+  }
+
+  openLightBox(index: number): void {
+    console.log(this._albums);
+    // open lightbox
+    this._lightbox.open(this._albums, index);
+  }
+
+  closeLightBox(): void {
+    // close lightbox programmatically
+    this._lightbox.close();
   }
 }
 export class ImageInput {
