@@ -109,7 +109,9 @@
                     <div class="col-md-4">
                         <span for="color" style=" float: left; padding-top: 16px; margin-right: 5px; color:#7c7c7c;">Color</span>
                         <input class="form-control" style="width:35px; float:left; margin-top: 4px;" [(colorPicker)]="color"
-                            [style.background]="color" id="color" (colorPickerChange)="colorChanged($event)" />
+                            [style.background]="color" id="color" (colorPickerChange)="colorChanged($event)"
+                            [cpPresetColors]="['#FFFFFF','#C0C0C0','#808080','#000000','#FF0000','#FFFF00','#808000','#008000','#00FFFF','#0000FF','#000080','#800080']"
+                            [cpPosition]="'bottom'" readonly />
                     </div>
                 </div>
             </div>
