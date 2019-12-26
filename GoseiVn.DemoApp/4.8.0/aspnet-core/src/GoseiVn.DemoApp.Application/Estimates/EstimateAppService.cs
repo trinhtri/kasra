@@ -160,8 +160,8 @@ namespace GoseiVn.DemoApp.Estimates
                     Address = (x.AddressLine1 == null ? "" : x.AddressLine1 + "-") + (x.AddressLine2 == null ? "" : x.AddressLine2 + "-") + (x.City == null ? "" : x.City + "-") + (x.State.StateName == null ? "" : x.State.StateName),
                     Mobile = x.Mobile,
                     TotalAmount = x.TotalAmount
-                }).WhereIf(input.Firstname != null, x => x.Firstname.Contains(input.Firstname))
-                .WhereIf(input.LastName != null, x => x.LastName.Contains(input.LastName))
+                }).WhereIf(input.Firstname != null, x => x.Firstname.ToUpper().Contains(input.Firstname.ToUpper()))
+                .WhereIf(input.LastName != null, x => x.LastName.ToUpper().Contains(input.LastName.ToUpper()))
                 .ToList();
             var pageOfResults = estimates
               .Skip(input.SkipCount)
@@ -205,8 +205,8 @@ namespace GoseiVn.DemoApp.Estimates
                     Length = x.Length,
                     With = x.With,
                     TotalAmount = x.TotalAmount
-                }).WhereIf(input.Firstname != null, x => x.Firstname.Contains(input.Firstname))
-                .WhereIf(input.LastName != null, x => x.LastName.Contains(input.LastName))
+                }).WhereIf(input.Firstname != null, x => x.Firstname.ToUpper().Contains(input.Firstname.ToUpper()))
+                .WhereIf(input.LastName != null, x => x.LastName.ToUpper().Contains(input.LastName.ToUpper()))
                 .ToList();
             return _estimateExcelExporter.ExportToFile(estimates);
         }
