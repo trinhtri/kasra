@@ -2,10 +2,10 @@ import { Component, OnInit, Injector, Optional, Inject } from '@angular/core';
 import { AppComponentBase } from '@shared/app-component-base';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import {
-    HttpClient,
-    HttpRequest,
-    HttpResponse,
-    HttpEvent
+  HttpClient,
+  HttpRequest,
+  HttpResponse,
+  HttpEvent
 } from '@angular/common/http';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { AppConsts } from '@shared/AppConsts';
@@ -88,9 +88,6 @@ export class CreateOrUpdateEstimateComponent extends AppComponentBase
 
   fileChange() {
     this.lastFileAt = new Date();
-    console.log('file change');
-    console.log(this.files);
-    console.log('this._id: ' + this._id);
     if (this._id) {
       this.uploadFiles(this.files);
     }
@@ -127,8 +124,6 @@ export class CreateOrUpdateEstimateComponent extends AppComponentBase
     });
   }
   save() {
-    console.log('danh sách ảnh khi nhấn save - this.files');
-    console.log(this.files);
     if (this._id) {
       this._estimateServiceProxy
         .update(this.estimateInput)
@@ -240,8 +235,6 @@ export class CreateOrUpdateEstimateComponent extends AppComponentBase
             .subscribe(result1 => {
               this.notify.info(this.l('DeleteSuccessfully'));
               this.images.splice(i, 1);
-              console.log('xóa ảnh khi edit');
-              console.log(this.images);
               this.initAlbum();
             });
         }
@@ -266,7 +259,6 @@ export class CreateOrUpdateEstimateComponent extends AppComponentBase
   }
 
   openLightBox(index: number): void {
-    console.log(this._albums);
     // open lightbox
     this._lightbox.open(this._albums, index);
   }
@@ -277,7 +269,7 @@ export class CreateOrUpdateEstimateComponent extends AppComponentBase
   }
 }
 export class ImageInput {
-    fileName: string;
-    fileUrl: string;
-    size: number;
+  fileName: string;
+  fileUrl: string;
+  size: number;
 }
