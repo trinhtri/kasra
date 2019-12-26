@@ -18,7 +18,7 @@ namespace GoseiVn.DemoApp.Models
         public string AddressLine2 { get; set; }
         public string City { get; set; }
 
-        public int StateId { get; set; }
+        public int? StateId { get; set; }
         public virtual States State { get; set; }
 
         public string ZipCode { get; set; }

@@ -1,13 +1,11 @@
 ﻿using Abp.Application.Services.Dto;
 using Abp.AutoMapper;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace GoseiVn.DemoApp.Estimates.Dto
 {
     [AutoMapFrom(typeof(Models.Estimates))]
-    public class CreateEstimateDto: EntityDto
+    public class CreateEstimateDto : EntityDto
     {
         public string Firstname { get; set; }
         public string LastName { get; set; }
@@ -16,7 +14,7 @@ namespace GoseiVn.DemoApp.Estimates.Dto
         public string AddressLine1 { get; set; }
         public string AddressLine2 { get; set; }
         public string City { get; set; }
-        public int StateId { get; set; }
+        public int? StateId { get; set; }
         public string ZipCode { get; set; }
         public decimal With { get; set; }
         public decimal Height { get; set; }
