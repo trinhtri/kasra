@@ -58,17 +58,20 @@ export class CreateOrUpdateEstimateComponent extends AppComponentBase implements
     if (this._id) {
       this._estimateServiceProxy.getDataForEdit(this._id).subscribe(result => {
         this.estimateInput = result;
+        this.color = this.estimateInput.color ? this.estimateInput.color : '#5a24ea';
         if (this.estimateInput.listFileName.length > 0) {
           for (let i = 0; i < this.estimateInput.listFileName.length; i++) {
             this.images.push({
               src: (this.viewImageUrl + this.estimateInput.listFileName[i].id.toString()),
-              fileName: this.estimateInput.listFileName[i].imageName
+              fileName: this.estimateInput.listFileName[i].imageName,
+              size: this.estimateInput.listFileName[i].imageSize
             });
           }
+          console.log('danh sách ảnh');
+          console.log(this.images);
         }
       });
     }
-    console.log(this._id);
     this.decimalMask = createNumberMask({
       prefix: '',
       allowDecimal: true,
@@ -87,6 +90,7 @@ export class CreateOrUpdateEstimateComponent extends AppComponentBase implements
 
   colorChanged(e: string) {
     this.color = e;
+    this.estimateInput.color = e;
   }
 
   getDate() {
@@ -99,7 +103,14 @@ export class CreateOrUpdateEstimateComponent extends AppComponentBase implements
     });
   }
   save() {
-    this.uploadFiles(this.files);
+    if (this._id) {
+      this._estimateServiceProxy.update(this.estimateInput).subscribe(result => {
+        this.notify.info(this.l('SavedSuccessfully'));
+        this.close(true);
+      });
+    } else {
+      this.uploadFiles(this.files);
+    }
   }
 
 
@@ -133,9 +144,7 @@ export class CreateOrUpdateEstimateComponent extends AppComponentBase implements
 
             listImage.push(imageInput);
           });
-          console.log(listImage);
           this.estimateInput.listFileName = listImage;
-          console.log(this.estimateInput);
           this.createEstimate();
 
         }
