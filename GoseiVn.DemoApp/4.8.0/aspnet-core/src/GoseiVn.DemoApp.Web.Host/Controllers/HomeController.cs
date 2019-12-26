@@ -56,6 +56,8 @@ namespace GoseiVn.DemoApp.Web.Host.Controllers
             return Content("Sent notification: " + message);
         }
 
+
+
         public ActionResult Image(int id)
         {
             Images imageObject = _estimateAppService.GetImageById(id);
