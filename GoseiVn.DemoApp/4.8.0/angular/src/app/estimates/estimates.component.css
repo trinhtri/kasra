@@ -134,7 +134,7 @@ div>input {
         /* margin-left: 100px; */
     }
     td:nth-of-type(2):before {
-        content: "First Name111";
+        content: "First Name";
         padding-right: 100px;
     }
     td:nth-of-type(3):before {
@@ -151,12 +151,12 @@ div>input {
     }
     .wtf {
         position: absolute;
-        left: 30%;
-        top: 15px;
+        left: 38%;
+        top: 18px;
     }
     .wtf1 {
         position: absolute;
-        left: 27%;
-        top: 15px;
+        left: 35%;
+        top: 17px;
     }
 }
